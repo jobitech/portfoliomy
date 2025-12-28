@@ -7,6 +7,9 @@ const Projects = () => {
 
   useEffect(() => {
     fetchProjects();
+    // Refetch every 5 seconds to get updates from admin panel
+    const interval = setInterval(fetchProjects, 5000);
+    return () => clearInterval(interval);
   }, []);
 
   const fetchProjects = async () => {

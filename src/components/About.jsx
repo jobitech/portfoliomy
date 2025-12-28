@@ -11,6 +11,9 @@ const About = () => {
 
   useEffect(() => {
     fetchAboutContent();
+    // Refetch every 5 seconds to get updates from admin panel
+    const interval = setInterval(fetchAboutContent, 5000);
+    return () => clearInterval(interval);
   }, []);
 
   const fetchAboutContent = async () => {

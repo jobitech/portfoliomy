@@ -17,6 +17,9 @@ const Skills = () => {
 
   useEffect(() => {
     fetchSkills();
+    // Refetch every 5 seconds to get updates from admin panel
+    const interval = setInterval(fetchSkills, 5000);
+    return () => clearInterval(interval);
   }, []);
 
   const fetchSkills = async () => {

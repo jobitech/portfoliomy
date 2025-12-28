@@ -12,6 +12,9 @@ const Hero = () => {
 
   useEffect(() => {
     fetchHeroContent();
+    // Refetch every 5 seconds to get updates from admin panel
+    const interval = setInterval(fetchHeroContent, 5000);
+    return () => clearInterval(interval);
   }, []);
 
   const fetchHeroContent = async () => {
