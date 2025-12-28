@@ -34,7 +34,7 @@ export const useAnimatedBackground = (canvasId, animationType = 'particles') => 
     }
 
     // Initialize particles for certain animations
-    if (animationType === 'particles' || animationType === 'floatingOrbs' || animationType === 'skillsAnimation' || animationType === 'projectsAnimation' || animationType === 'contactAnimation') {
+    if (animationType === 'particles' || animationType === 'floatingOrbs' || animationType === 'skillsAnimation' || animationType === 'projectsAnimation' || animationType === 'contactAnimation' || animationType === 'simpleAnimation') {
       for (let i = 0; i < 40; i++) {
         particles.push({
           x: Math.random() * width,
@@ -302,6 +302,69 @@ export const useAnimatedBackground = (canvasId, animationType = 'particles') => 
               ctx.beginPath();
               ctx.moveTo(particles[i].x, particles[i].y);
               ctx.lineTo(particles[j].x, particles[j].y);
+              ctx.stroke();
+            }
+          }
+        }
+
+      } else if (animationType === 'simpleAnimation') {
+        // Simple and amazing gradient mesh animation
+        const time = Date.now() * 0.0005;
+        const gridSize = 150;
+        const noiseScale = 0.8;
+        
+        // Draw beautiful gradient mesh
+        for (let x = 0; x < width; x += gridSize) {
+          for (let y = 0; y < height; y += gridSize) {
+            // Calculate wave based on position and time
+            const waveX = Math.sin(x * 0.005 + time * 0.3) * 30;
+            const waveY = Math.cos(y * 0.005 + time * 0.25) * 30;
+            
+            const posX = x + waveX;
+            const posY = y + waveY;
+            
+            const isPurple = (x / gridSize + y / gridSize) % 2 === 0;
+            const hue = isPurple ? 270 : 200;
+            const saturation = 60 + Math.sin(time * 0.2) * 20;
+            const lightness = 50 + Math.sin(time * 0.15 + x * 0.002) * 15;
+            
+            // Draw gradient circle at each point
+            const gradient = ctx.createRadialGradient(posX, posY, 0, posX, posY, 100);
+            gradient.addColorStop(0, `hsla(${hue}, ${saturation}%, ${lightness}%, 0.4)`);
+            gradient.addColorStop(0.5, `hsla(${hue}, ${saturation}%, ${lightness}%, 0.2)`);
+            gradient.addColorStop(1, `hsla(${hue}, ${saturation}%, ${lightness}%, 0)`);
+            
+            ctx.fillStyle = gradient;
+            ctx.beginPath();
+            ctx.arc(posX, posY, 100, 0, Math.PI * 2);
+            ctx.fill();
+            
+            // Draw connecting lines
+            if (x + gridSize < width) {
+              const nextX = x + gridSize + Math.sin((x + gridSize) * 0.005 + time * 0.3) * 30;
+              const nextY = y + Math.cos(y * 0.005 + time * 0.25) * 30;
+              
+              ctx.strokeStyle = isPurple
+                ? `hsla(270, 60%, 50%, 0.15)`
+                : `hsla(200, 60%, 50%, 0.15)`;
+              ctx.lineWidth = 1;
+              ctx.beginPath();
+              ctx.moveTo(posX, posY);
+              ctx.lineTo(nextX, nextY);
+              ctx.stroke();
+            }
+            
+            if (y + gridSize < height) {
+              const nextX = x + Math.sin(x * 0.005 + time * 0.3) * 30;
+              const nextY = y + gridSize + Math.cos((y + gridSize) * 0.005 + time * 0.25) * 30;
+              
+              ctx.strokeStyle = isPurple
+                ? `hsla(270, 60%, 50%, 0.15)`
+                : `hsla(200, 60%, 50%, 0.15)`;
+              ctx.lineWidth = 1;
+              ctx.beginPath();
+              ctx.moveTo(posX, posY);
+              ctx.lineTo(nextX, nextY);
               ctx.stroke();
             }
           }
