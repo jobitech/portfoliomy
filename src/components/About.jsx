@@ -81,13 +81,6 @@ const About = () => {
                 <p className="text-gray-400 text-xs md:text-sm mt-2 font-semibold">Experience</p>
               </div>
             </div>
-            
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 py-6 md:py-8">
-              <div className="text-center group md:col-start-2">
-                <p className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-purple-400 to-blue-300 bg-clip-text text-transparent group-hover:scale-110 transition-transform duration-300\">0</p>
-                <p className="text-gray-400 text-xs md:text-sm mt-2 font-semibold\">Awards</p>
-              </div>
-            </div>
 
             {/* Button */}
             <a
