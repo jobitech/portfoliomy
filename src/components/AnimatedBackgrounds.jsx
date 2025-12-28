@@ -34,7 +34,7 @@ export const useAnimatedBackground = (canvasId, animationType = 'particles') => 
     }
 
     // Initialize particles for certain animations
-    if (animationType === 'particles' || animationType === 'floatingOrbs' || animationType === 'skillsAnimation') {
+    if (animationType === 'particles' || animationType === 'floatingOrbs' || animationType === 'skillsAnimation' || animationType === 'projectsAnimation' || animationType === 'contactAnimation') {
       for (let i = 0; i < 40; i++) {
         particles.push({
           x: Math.random() * width,
@@ -90,7 +90,7 @@ export const useAnimatedBackground = (canvasId, animationType = 'particles') => 
       } else if (animationType === 'waves') {
         // Enhanced wave animation with purple and blue colors
         const waveCount = 5;
-        const time = Date.now() * 0.0008;
+        const wavesTime = Date.now() * 0.0008;
         
         for (let w = 0; w < waveCount; w++) {
           ctx.beginPath();
@@ -101,8 +101,8 @@ export const useAnimatedBackground = (canvasId, animationType = 'particles') => 
             const mouseInfluence = Math.max(0, 1 - dist / 400);
             
             const y = height / 2 + 
-                     Math.sin((x * 0.008 + time + w * 1.5) * Math.PI) * (60 + mouseInfluence * 100) + 
-                     Math.cos(time * 0.5) * 30;
+                     Math.sin((x * 0.008 + wavesTime + w * 1.5) * Math.PI) * (60 + mouseInfluence * 100) + 
+                     Math.cos(wavesTime * 0.5) * 30;
             
             if (x === 0) ctx.moveTo(x, y);
             else ctx.lineTo(x, y);
@@ -181,10 +181,134 @@ export const useAnimatedBackground = (canvasId, animationType = 'particles') => 
           ctx.fill();
         });
 
-      } else if (animationType === 'grid') {
+      } else if (animationType === 'projectsAnimation') {
+        // Amazing rotating gradient rings animation
+        const time = Date.now() * 0.0004;
+        const ringCount = 8;
+        const centerX = width / 2;
+        const centerY = height / 2;
+        
+        // Draw multiple rotating rings
+        for (let i = 0; i < ringCount; i++) {
+          const rotation = time + (i * Math.PI / (ringCount / 2));
+          const radius = 150 + i * 40;
+          const opacity = 0.4 - (i * 0.05);
+          
+          const isPurple = i % 2 === 0;
+          
+          ctx.strokeStyle = isPurple
+            ? `rgba(168, 85, 247, ${opacity})`
+            : `rgba(59, 130, 246, ${opacity})`;
+          ctx.lineWidth = 2.5 + Math.sin(time + i) * 1;
+          
+          ctx.beginPath();
+          ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
+          ctx.stroke();
+          
+          // Add rotating dots on rings
+          for (let d = 0; d < 4; d++) {
+            const angle = rotation + (d * Math.PI / 2);
+            const dotX = centerX + Math.cos(angle) * radius;
+            const dotY = centerY + Math.sin(angle) * radius;
+            
+            ctx.fillStyle = isPurple
+              ? `rgba(168, 85, 247, ${opacity + 0.2})`
+              : `rgba(59, 130, 246, ${opacity + 0.2})`;
+            ctx.beginPath();
+            ctx.arc(dotX, dotY, 3 + Math.sin(time * 1.5 + d) * 2, 0, Math.PI * 2);
+            ctx.fill();
+          }
+        }
+        
+        // Central pulsing core
+        const corePulse = Math.sin(time * 1.2) * 0.5 + 0.5;
+        const coreGradient = ctx.createRadialGradient(centerX, centerY, 0, centerX, centerY, 80);
+        coreGradient.addColorStop(0, `rgba(168, 85, 247, ${0.5 + corePulse * 0.3})`);
+        coreGradient.addColorStop(0.7, `rgba(59, 130, 246, ${0.3 + corePulse * 0.2})`);
+        coreGradient.addColorStop(1, `rgba(147, 51, 234, 0)`);
+        
+        ctx.fillStyle = coreGradient;
+        ctx.beginPath();
+        ctx.arc(centerX, centerY, 80 + corePulse * 30, 0, Math.PI * 2);
+        ctx.fill();
+
+      } else if (animationType === 'contactAnimation') {
+        // Beautiful flowing wave and particle system without mouse tracking
+        const time = Date.now() * 0.0006;
+        
+        // Animate particles with flowing motion
+        particles.forEach((particle, idx) => {
+          particle.x += Math.sin(time + idx * 0.3) * 0.4;
+          particle.y += Math.cos(time * 0.7 + idx * 0.2) * 0.4;
+          
+          if (particle.x < 0) particle.x = width;
+          if (particle.x > width) particle.x = 0;
+          if (particle.y < 0) particle.y = height;
+          if (particle.y > height) particle.y = 0;
+          
+          const isPurple = idx % 2 === 0;
+          const hue = isPurple ? 270 : 200;
+          const pulse = Math.sin(time * 0.8 + idx) * 0.5 + 0.5;
+          
+          ctx.beginPath();
+          ctx.arc(particle.x, particle.y, 2.5 + pulse * 2, 0, Math.PI * 2);
+          ctx.fillStyle = `hsla(${hue}, 70%, 50%, ${0.4 + pulse * 0.4})`;
+          ctx.fill();
+          
+          // Soft glow
+          ctx.strokeStyle = `hsla(${hue}, 70%, 60%, ${(0.2 + pulse * 0.3)})`;
+          ctx.lineWidth = 1;
+          ctx.beginPath();
+          ctx.arc(particle.x, particle.y, 6 + pulse * 3, 0, Math.PI * 2);
+          ctx.stroke();
+        });
+        
+        // Draw flowing waves
+        for (let wave = 0; wave < 4; wave++) {
+          ctx.beginPath();
+          const baseAlpha = 0.2 - wave * 0.04;
+          const waveHeight = 40 + Math.sin(time * 0.3 + wave) * 20;
+          
+          for (let x = 0; x <= width; x += 20) {
+            const y = height / 2 + 
+                     Math.sin((x * 0.008 + time * 0.5 + wave * 1.5) * Math.PI) * waveHeight +
+                     Math.cos(time * 0.4 + wave) * 30;
+            
+            if (x === 0) ctx.moveTo(x, y);
+            else ctx.lineTo(x, y);
+          }
+          
+          const isPurple = wave % 2 === 0;
+          ctx.strokeStyle = isPurple
+            ? `rgba(168, 85, 247, ${baseAlpha})`
+            : `rgba(59, 130, 246, ${baseAlpha})`;
+          ctx.lineWidth = 2;
+          ctx.lineCap = 'round';
+          ctx.lineJoin = 'round';
+          ctx.stroke();
+        }
+        
+        // Connect nearby particles
+        for (let i = 0; i < particles.length; i++) {
+          for (let j = i + 1; j < particles.length; j++) {
+            const dx = particles[j].x - particles[i].x;
+            const dy = particles[j].y - particles[i].y;
+            const dist = Math.sqrt(dx * dx + dy * dy);
+            
+            if (dist < 200) {
+              const opacity = (200 - dist) / 400;
+              ctx.strokeStyle = `rgba(147, 51, 234, ${opacity * 0.3})`;
+              ctx.lineWidth = 0.5;
+              ctx.beginPath();
+              ctx.moveTo(particles[i].x, particles[i].y);
+              ctx.lineTo(particles[j].x, particles[j].y);
+              ctx.stroke();
+            }
+          }
+        }
         // Enhanced interactive grid with purple and blue
         const spacing = 80;
-        const time = Date.now() * 0.0003;
+        const gridTime = Date.now() * 0.0003;
         
         for (let x = 0; x < width; x += spacing) {
           for (let y = 0; y < height; y += spacing) {
@@ -248,11 +372,11 @@ export const useAnimatedBackground = (canvasId, animationType = 'particles') => 
       } else if (animationType === 'dots') {
         // Enhanced connected dots with purple and blue colors
         const dotCount = 25;
-        const time = Date.now() * 0.0004;
+        const dotsTime = Date.now() * 0.0004;
         
         for (let i = 0; i < dotCount; i++) {
-          const angle = (i / dotCount) * Math.PI * 2 + time * 0.3;
-          const radius = 250 + Math.sin(time * 0.5 + i) * 120;
+          const angle = (i / dotCount) * Math.PI * 2 + dotsTime * 0.3;
+          const radius = 250 + Math.sin(dotsTime * 0.5 + i) * 120;
           const x = width / 2 + Math.cos(angle) * radius;
           const y = height / 2 + Math.sin(angle) * radius;
           
@@ -280,8 +404,8 @@ export const useAnimatedBackground = (canvasId, animationType = 'particles') => 
           ctx.stroke();
           
           // Connection lines to neighbors
-          const nextAngle = ((i + 1) / dotCount) * Math.PI * 2 + time * 0.3;
-          const nextRadius = 250 + Math.sin(time * 0.5 + i + 1) * 120;
+          const nextAngle = ((i + 1) / dotCount) * Math.PI * 2 + dotsTime * 0.3;
+          const nextRadius = 250 + Math.sin(dotsTime * 0.5 + i + 1) * 120;
           const nextX = width / 2 + Math.cos(nextAngle) * nextRadius;
           const nextY = height / 2 + Math.sin(nextAngle) * nextRadius;
           
@@ -296,7 +420,7 @@ export const useAnimatedBackground = (canvasId, animationType = 'particles') => 
         }
         
         // Pulsing center - gradient purple to blue
-        const centerPulse = Math.sin(time) * 0.5 + 0.5;
+        const centerPulse = Math.sin(dotsTime) * 0.5 + 0.5;
         ctx.beginPath();
         ctx.arc(width / 2, height / 2, 8 + centerPulse * 10, 0, Math.PI * 2);
         ctx.fillStyle = `rgba(168, 85, 247, ${0.6 + centerPulse * 0.3})`;

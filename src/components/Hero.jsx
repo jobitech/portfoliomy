@@ -87,7 +87,7 @@ const Hero = () => {
             <span className="font-mono text-purple-300 uppercase tracking-widest text-xs sm:text-sm animate-fade-in-up" style={{animation: 'fadeInUp 0.8s ease-out 0.2s forwards', opacity: 0}}>Creating Beyond Limits</span>
           </div>
 
-          <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black tracking-tighter leading-tight mb-6 text-white animate-scale-in" style={{animation: 'scaleIn 0.8s ease-out 0.3s forwards', opacity: 0}}>
+          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black tracking-tighter leading-tight mb-6 text-white animate-scale-in" style={{animation: 'scaleIn 0.8s ease-out 0.3s forwards', opacity: 0}}>
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-500 via-blue-500 to-cyan-500 inline-block px-2">JOBIN BABU</span>
           </h1>
 

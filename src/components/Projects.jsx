@@ -3,7 +3,7 @@ import { ArrowUpRight } from 'lucide-react';
 import { useAnimatedBackground } from './AnimatedBackgrounds';
 
 const Projects = () => {
-  const canvasRef = useAnimatedBackground('projects-canvas', 'grid');
+  const canvasRef = useAnimatedBackground('projects-canvas', 'projectsAnimation');
   const [projects, setProjects] = useState([]);
 
   useEffect(() => {
