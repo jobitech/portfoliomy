@@ -14,10 +14,6 @@ const Footer = () => {
       <div className="max-w-6xl mx-auto flex flex-col sm:flex-row flex-wrap gap-8 sm:gap-12 md:gap-24 items-start sm:items-center justify-between">
         <div className="flex flex-wrap gap-8 sm:gap-12 md:gap-24">
           <div className="flex flex-col">
-            <span className="text-xs font-mono text-gray-400 mb-2 uppercase tracking-widest">Clients</span>
-            <span className="text-xl sm:text-2xl font-bold">0+</span>
-          </div>
-          <div className="flex flex-col">
             <span className="text-xs font-mono text-gray-400 mb-2 uppercase tracking-widest">Experience</span>
             <span className="text-xl sm:text-2xl font-bold">6 Months</span>
           </div>

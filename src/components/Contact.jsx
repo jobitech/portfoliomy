@@ -1,11 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Mail, Phone, MapPin, Send } from 'lucide-react';
 import emailjs from '@emailjs/browser';
-import { useAnimatedBackground } from './AnimatedBackgrounds';
 
 const Contact = () => {
-  const canvasRef = useAnimatedBackground('contact-canvas', 'contactAnimation');
-
   // Initialize EmailJS
   useEffect(() => {
     emailjs.init('NEgD3IDvT2fa9ootC');
@@ -48,7 +45,6 @@ const Contact = () => {
 
   return (
     <section id="contact" className="py-16 md:py-24 px-4 sm:px-8 md:px-12 relative z-10 bg-gradient-to-b from-zinc-950 to-black border-t border-white/10 overflow-hidden">
-      <canvas ref={canvasRef} className="absolute inset-0 pointer-events-none opacity-50" />
       <div className="absolute inset-0 bg-gradient-to-b from-black/20 to-black/50 -z-10"></div>
       <div className="max-w-6xl mx-auto relative">
         <div className="mb-12 md:mb-16">
