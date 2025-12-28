@@ -3,7 +3,7 @@ import { Code2, Cpu, Globe, Palette } from 'lucide-react';
 import { useAnimatedBackground } from './AnimatedBackgrounds';
 
 const Skills = () => {
-  const canvasRef = useAnimatedBackground('skills-canvas', 'grid');
+  const canvasRef = useAnimatedBackground('skills-canvas', 'skillsAnimation');
   const [skills, setSkills] = useState([
     { icon: Code2, title: "HTML", desc: "Markup & Structure", percentage: 100 },
     { icon: Code2, title: "CSS", desc: "Styling & Animations", percentage: 100 },

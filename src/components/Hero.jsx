@@ -60,19 +60,14 @@ const Hero = () => {
           0%, 100% { transform: translateY(0px); }
           50% { transform: translateY(-10px); }
         }
-        @keyframes glowPulse {
-          0%, 100% { box-shadow: 0 0 20px rgba(147, 51, 234, 0.3); }
-          50% { box-shadow: 0 0 40px rgba(147, 51, 234, 0.6); }
-        }
         .animate-line { animation: slideInRight 1s ease-out forwards; }
         .animate-fade-in-up { animation: fadeInUp 0.8s ease-out forwards; }
         .animate-scale-in { animation: scaleIn 0.8s ease-out forwards; }
         .animate-float { animation: float 3s ease-in-out infinite; }
-        .animate-glow-pulse { animation: glowPulse 2s ease-in-out infinite; }
       `}</style>
 
       <section 
-        className="min-h-screen flex flex-col justify-center items-start px-4 sm:px-8 md:px-12 pt-[28rem] pb-20 relative z-10 overflow-hidden"
+        className="min-h-screen flex flex-col justify-center items-start px-4 sm:px-8 md:px-12 pt-[30rem] pb-20 relative z-10 overflow-hidden"
         style={{
           backgroundImage: `linear-gradient(135deg, rgba(0,0,0,0.8) 0%, rgba(88,28,135,0.5) 100%), url('${profileImage}')`,
           backgroundSize: 'cover',
@@ -93,7 +88,7 @@ const Hero = () => {
           </div>
 
           <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black tracking-tighter leading-tight mb-6 text-white animate-scale-in" style={{animation: 'scaleIn 0.8s ease-out 0.3s forwards', opacity: 0}}>
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-500 via-blue-500 to-cyan-500 animate-glow-pulse inline-block px-2">JOBIN BABU</span>
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-500 via-blue-500 to-cyan-500 inline-block px-2">JOBIN BABU</span>
           </h1>
 
           <p className="text-sm sm:text-base md:text-lg text-purple-200 font-mono mb-6 animate-fade-in-up" style={{animation: 'fadeInUp 0.8s ease-out 0.4s forwards', opacity: 0}}>

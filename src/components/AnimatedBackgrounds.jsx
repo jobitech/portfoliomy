@@ -28,10 +28,13 @@ export const useAnimatedBackground = (canvasId, animationType = 'particles') => 
       mouse.x = e.clientX;
       mouse.y = e.clientY;
     };
-    window.addEventListener('mousemove', updateMouse);
+    // Only add mousemove listener for animations that use mouse interaction
+    if (animationType === 'grid' || animationType === 'waves' || animationType === 'particles') {
+      window.addEventListener('mousemove', updateMouse);
+    }
 
     // Initialize particles for certain animations
-    if (animationType === 'particles' || animationType === 'floatingOrbs') {
+    if (animationType === 'particles' || animationType === 'floatingOrbs' || animationType === 'skillsAnimation') {
       for (let i = 0; i < 40; i++) {
         particles.push({
           x: Math.random() * width,
@@ -117,6 +120,66 @@ export const useAnimatedBackground = (canvasId, animationType = 'particles') => 
           ctx.lineJoin = 'round';
           ctx.stroke();
         }
+
+      } else if (animationType === 'skillsAnimation') {
+        // Amazing floating gradient blobs animation - device-compatible
+        const time = Date.now() * 0.0005;
+        const blobCount = 5;
+        
+        for (let i = 0; i < blobCount; i++) {
+          // Calculate orbital positions for blobs
+          const angle = (time + (i / blobCount) * Math.PI * 2) * 0.5;
+          const orbitRadius = 200 + Math.sin(time * 0.3 + i * 0.8) * 100;
+          
+          const x = width / 2 + Math.cos(angle) * orbitRadius;
+          const y = height / 2 + Math.sin(angle) * orbitRadius + Math.sin(time * 0.4 + i) * 80;
+          
+          // Blob size variation
+          const size = 80 + Math.sin(time * 0.6 + i * 1.2) * 40;
+          
+          // Alternate between purple and blue
+          const isPurple = i % 2 === 0;
+          const hue = isPurple ? 270 : 200;
+          const saturation = 70 + Math.sin(time * 0.3 + i) * 20;
+          const lightness = 50 + Math.sin(time * 0.4 + i * 0.5) * 15;
+          
+          // Main blob with gradient
+          const gradient = ctx.createRadialGradient(x, y, 0, x, y, size);
+          gradient.addColorStop(0, `hsla(${hue}, ${saturation}%, ${lightness + 15}%, 0.6)`);
+          gradient.addColorStop(0.7, `hsla(${hue}, ${saturation}%, ${lightness}%, 0.3)`);
+          gradient.addColorStop(1, `hsla(${hue}, ${saturation}%, ${lightness}%, 0)`);
+          
+          ctx.fillStyle = gradient;
+          ctx.beginPath();
+          ctx.arc(x, y, size, 0, Math.PI * 2);
+          ctx.fill();
+          
+          // Soft glow around blob
+          ctx.strokeStyle = `hsla(${hue}, ${saturation}%, ${lightness + 10}%, 0.4)`;
+          ctx.lineWidth = 2;
+          ctx.beginPath();
+          ctx.arc(x, y, size + 20, 0, Math.PI * 2);
+          ctx.stroke();
+        }
+        
+        // Add some floating particles
+        particles.forEach((particle, idx) => {
+          particle.x += Math.sin(time + idx * 0.5) * 0.3;
+          particle.y += Math.cos(time + idx * 0.5) * 0.3;
+          
+          if (particle.x < 0) particle.x = width;
+          if (particle.x > width) particle.x = 0;
+          if (particle.y < 0) particle.y = height;
+          if (particle.y > height) particle.y = 0;
+          
+          const isPurple = idx % 2 === 0;
+          const hue = isPurple ? 270 : 200;
+          
+          ctx.beginPath();
+          ctx.arc(particle.x, particle.y, 2 + Math.sin(time * 0.8 + idx) * 1.5, 0, Math.PI * 2);
+          ctx.fillStyle = `hsla(${hue}, 70%, 50%, ${0.4 + Math.sin(time + idx) * 0.3})`;
+          ctx.fill();
+        });
 
       } else if (animationType === 'grid') {
         // Enhanced interactive grid with purple and blue
@@ -310,7 +373,9 @@ export const useAnimatedBackground = (canvasId, animationType = 'particles') => 
     animate();
     return () => {
       window.removeEventListener('resize', handleResize);
-      window.removeEventListener('mousemove', updateMouse);
+      if (animationType === 'grid' || animationType === 'waves' || animationType === 'particles') {
+        window.removeEventListener('mousemove', updateMouse);
+      }
       cancelAnimationFrame(requestRef.current);
     };
   }, [animationType]);
