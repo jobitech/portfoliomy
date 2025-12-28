@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import API_URL from '../config/api';
 import { Save, Loader } from 'lucide-react';
 
 const HeroEditor = () => {
@@ -16,7 +17,7 @@ const HeroEditor = () => {
 
   const fetchHeroContent = async () => {
     try {
-      const response = await fetch('http://localhost:5000/api/hero');
+      const response = await fetch(`${API_URL}/api/hero`);
       const data = await response.json();
       setHeroContent(data);
     } catch (err) {
@@ -31,7 +32,7 @@ const HeroEditor = () => {
 
     try {
       const token = localStorage.getItem('adminToken');
-      const response = await fetch('http://localhost:5000/api/hero', {
+      const response = await fetch(`${API_URL}/api/hero`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

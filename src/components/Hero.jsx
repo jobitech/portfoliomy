@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { ArrowUpRight, Download } from 'lucide-react';
 import profileImage from '../assets/profile 1 .jpeg';
+import API_URL from '../config/api';
 
 const Hero = () => {
   const [heroContent, setHeroContent] = useState({
@@ -15,7 +16,7 @@ const Hero = () => {
 
   const fetchHeroContent = async () => {
     try {
-      const response = await fetch('http://localhost:5000/api/hero');
+      const response = await fetch(`${API_URL}/api/hero`);
       const data = await response.json();
       if (data && data.main_text) {
         setHeroContent(data);

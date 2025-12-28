@@ -21,7 +21,7 @@ const ProjectsManager = () => {
 
   const fetchProjects = async () => {
     try {
-      const response = await fetch('http://localhost:5000/api/projects');
+      const response = await fetch(`${API_URL}/api/projects`);
       const data = await response.json();
       setProjects(data);
     } catch (err) {
@@ -61,7 +61,7 @@ const ProjectsManager = () => {
         formData.append('image', projectImageFile);
       }
 
-      const response = await fetch('http://localhost:5000/api/projects', {
+      const response = await fetch(`${API_URL}/api/projects`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`
@@ -97,7 +97,7 @@ const ProjectsManager = () => {
 
     try {
       const token = localStorage.getItem('adminToken');
-      const response = await fetch(`http://localhost:5000/api/projects/${id}`, {
+      const response = await fetch(`${API_URL}/api/projects/${editingId}`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${token}`

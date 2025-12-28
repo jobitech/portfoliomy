@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Code2, Cpu, Globe, Palette } from 'lucide-react';
+import API_URL from '../config/api';
 
 const Skills = () => {
   const [skills, setSkills] = useState([
@@ -20,7 +21,7 @@ const Skills = () => {
 
   const fetchSkills = async () => {
     try {
-      const response = await fetch('http://localhost:5000/api/skills');
+      const response = await fetch(`${API_URL}/api/skills`);
       const data = await response.json();
       if (data && Array.isArray(data)) {
         const skillsWithPercentages = data.map(skill => {

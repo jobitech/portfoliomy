@@ -15,7 +15,7 @@ const ProtectedRoute = ({ component: Component }) => {
       }
 
       try {
-        const response = await fetch('http://localhost:5000/api/auth/verify', {
+        const response = await fetch(`${API_URL}/api/auth/verify`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

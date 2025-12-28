@@ -14,7 +14,7 @@ const SkillsManager = () => {
 
   const fetchSkills = async () => {
     try {
-      const response = await fetch('http://localhost:5000/api/skills');
+      const response = await fetch(`${API_URL}/api/skills`);
       const data = await response.json();
       setSkills(data);
     } catch (err) {
@@ -33,7 +33,7 @@ const SkillsManager = () => {
 
     try {
       const token = localStorage.getItem('adminToken');
-      const response = await fetch('http://localhost:5000/api/skills', {
+      const response = await fetch(`${API_URL}/api/skills`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -68,7 +68,7 @@ const SkillsManager = () => {
 
     try {
       const token = localStorage.getItem('adminToken');
-      const response = await fetch(`http://localhost:5000/api/skills/${id}`, {
+      const response = await fetch(`${API_URL}/api/skills/${id}`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${token}`

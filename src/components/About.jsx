@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useAnimatedBackground } from './AnimatedBackgrounds';
 import profileImage from '../assets/profile 1 .jpeg';
+import API_URL from '../config/api';
 
 const About = () => {
   const canvasRef = useAnimatedBackground('about-canvas', 'floatingOrbs');
@@ -14,7 +15,7 @@ const About = () => {
 
   const fetchAboutContent = async () => {
     try {
-      const response = await fetch('http://localhost:5000/api/about');
+      const response = await fetch(`${API_URL}/api/about`);
       const data = await response.json();
       if (data && data.bio) {
         setAboutContent(data);

@@ -18,11 +18,11 @@ const AboutEditor = () => {
 
   const fetchAboutContent = async () => {
     try {
-      const response = await fetch('http://localhost:5000/api/about');
+      const response = await fetch(`${API_URL}/api/about`);
       const data = await response.json();
       setAboutContent(data);
       if (data.photo) {
-        setPhotoPreview(`http://localhost:5000${data.photo}`);
+        setPhotoPreview(`${API_URL}${data.photo}`);
       }
     } catch (err) {
       console.error('Error fetching about content:', err);
@@ -54,7 +54,7 @@ const AboutEditor = () => {
         formData.append('photo', photoFile);
       }
 
-      const response = await fetch('http://localhost:5000/api/about', {
+      const response = await fetch(`${API_URL}/api/about`, {
         method: 'PUT',
         headers: {
           'Authorization': `Bearer ${token}`
