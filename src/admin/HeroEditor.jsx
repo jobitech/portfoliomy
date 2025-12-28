@@ -5,7 +5,9 @@ import { Save, Loader } from 'lucide-react';
 const HeroEditor = () => {
   const [heroContent, setHeroContent] = useState({
     main_text: '',
-    sub_text: ''
+    sub_text: '',
+    tag_text: '',
+    bio: ''
   });
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState('');
@@ -72,8 +74,8 @@ const HeroEditor = () => {
               value={heroContent.main_text}
               onChange={(e) => setHeroContent({ ...heroContent, main_text: e.target.value })}
               className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-purple-500 focus:bg-white/15 transition-all resize-none"
-              rows="3"
-              placeholder="Enter main heading text"
+              rows="2"
+              placeholder="Enter main heading text (e.g., JOBIN BABU)"
             />
           </div>
 
@@ -86,7 +88,33 @@ const HeroEditor = () => {
               onChange={(e) => setHeroContent({ ...heroContent, sub_text: e.target.value })}
               className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-purple-500 focus:bg-white/15 transition-all resize-none"
               rows="2"
-              placeholder="Enter subheading text"
+              placeholder="Enter subheading text (e.g., Creative Developer & AI/ML Explorer)"
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm font-semibold text-gray-300 mb-3">
+              Tag Text (top decorative text)
+            </label>
+            <textarea
+              value={heroContent.tag_text}
+              onChange={(e) => setHeroContent({ ...heroContent, tag_text: e.target.value })}
+              className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-purple-500 focus:bg-white/15 transition-all resize-none"
+              rows="1"
+              placeholder="Enter tag text (e.g., Creating Beyond Limits)"
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm font-semibold text-gray-300 mb-3">
+              Hero Bio/Description
+            </label>
+            <textarea
+              value={heroContent.bio}
+              onChange={(e) => setHeroContent({ ...heroContent, bio: e.target.value })}
+              className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-purple-500 focus:bg-white/15 transition-all resize-none"
+              rows="4"
+              placeholder="Enter hero section biography/description"
             />
           </div>
 

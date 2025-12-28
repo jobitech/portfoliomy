@@ -72,6 +72,8 @@ const initializeDB = () => {
         id INTEGER PRIMARY KEY,
         main_text TEXT,
         sub_text TEXT,
+        tag_text TEXT,
+        bio TEXT,
         updatedAt DATETIME DEFAULT CURRENT_TIMESTAMP
       )
     `);
@@ -91,7 +93,7 @@ const initializeDB = () => {
     // Seed initial data if tables are empty
     db.get('SELECT COUNT(*) as count FROM hero_content', (err, row) => {
       if (row.count === 0) {
-        db.run(`INSERT INTO hero_content (id, main_text, sub_text) VALUES (1, 'CREATING BEYOND LIMITS', 'Full Stack Developer & Creative Technologist')`);
+        db.run(`INSERT INTO hero_content (id, main_text, sub_text, tag_text, bio) VALUES (1, 'JOBIN BABU', 'Creative Developer & AI/ML Explorer', 'Creating Beyond Limits', 'I''m a passionate developer dedicated to creating stunning web experiences that blend creativity with functionality. I believe in writing clean code and designing intuitive interfaces.')`);
       }
     });
 
@@ -195,11 +197,11 @@ app.get('/api/hero', (req, res) => {
 
 // Update hero content
 app.put('/api/hero', verifyToken, (req, res) => {
-  const { main_text, sub_text } = req.body;
+  const { main_text, sub_text, tag_text, bio } = req.body;
   
   db.run(
-    'UPDATE hero_content SET main_text = ?, sub_text = ?, updatedAt = CURRENT_TIMESTAMP WHERE id = 1',
-    [main_text, sub_text],
+    'UPDATE hero_content SET main_text = ?, sub_text = ?, tag_text = ?, bio = ?, updatedAt = CURRENT_TIMESTAMP WHERE id = 1',
+    [main_text, sub_text, tag_text, bio],
     (err) => {
       if (err) return res.status(500).json({ error: err.message });
       res.json({ message: 'Hero content updated successfully' });

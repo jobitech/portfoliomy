@@ -6,7 +6,8 @@ import API_URL from '../config/api';
 const Hero = () => {
   const [heroContent, setHeroContent] = useState({
     main_text: 'JOBIN BABU',
-    sub_text: 'Full Stack Developer & Creative Technologist',
+    sub_text: 'Creative Developer & AI/ML Explorer',
+    tag_text: 'Creating Beyond Limits',
     bio: 'I\'m a passionate developer dedicated to creating stunning web experiences that blend creativity with functionality. I believe in writing clean code and designing intuitive interfaces.'
   });
 
@@ -88,15 +89,17 @@ const Hero = () => {
         <div className="max-w-3xl relative z-20 text-left">
           <div className="mb-4 flex items-center gap-4 justify-start">
             <span className="h-px bg-gradient-to-r from-purple-500 to-blue-500 animate-line" style={{width: '40px'}}></span>
-            <span className="font-mono text-purple-300 uppercase tracking-widest text-xs sm:text-sm animate-fade-in-up" style={{animation: 'fadeInUp 0.8s ease-out 0.2s forwards', opacity: 0}}>Creating Beyond Limits</span>
+            <span className="font-mono text-purple-300 uppercase tracking-widest text-xs sm:text-sm animate-fade-in-up" style={{animation: 'fadeInUp 0.8s ease-out 0.2s forwards', opacity: 0}}>
+              {heroContent.tag_text}
+            </span>
           </div>
 
           <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black tracking-tighter leading-tight mb-6 text-white animate-scale-in" style={{animation: 'scaleIn 0.8s ease-out 0.3s forwards', opacity: 0}}>
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-500 via-blue-500 to-cyan-500 inline-block px-2">JOBIN BABU</span>
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-500 via-blue-500 to-cyan-500 inline-block px-2">{heroContent.main_text}</span>
           </h1>
 
           <p className="text-sm sm:text-base md:text-lg text-purple-200 font-mono mb-6 animate-fade-in-up" style={{animation: 'fadeInUp 0.8s ease-out 0.4s forwards', opacity: 0}}>
-            Creative Developer & AI/ML Explorer
+            {heroContent.sub_text}
           </p>
 
           <p className="max-w-2xl text-sm sm:text-base md:text-lg text-gray-200 leading-relaxed mb-8 animate-fade-in-up" style={{animation: 'fadeInUp 0.8s ease-out 0.5s forwards', opacity: 0}}>
