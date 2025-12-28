@@ -72,7 +72,7 @@ const Hero = () => {
       `}</style>
 
       <section 
-        className="min-h-screen flex flex-col justify-center items-center px-4 sm:px-8 md:px-12 pt-20 pb-20 relative z-10 overflow-hidden"
+        className="min-h-screen flex flex-col justify-center items-center px-4 sm:px-8 md:px-12 pt-40 pb-20 relative z-10 overflow-hidden"
         style={{
           backgroundImage: `linear-gradient(135deg, rgba(0,0,0,0.8) 0%, rgba(88,28,135,0.5) 100%), url('${profileImage}')`,
           backgroundSize: 'cover',
@@ -87,9 +87,9 @@ const Hero = () => {
         </div>
 
         <div className="max-w-3xl relative z-20 text-center">
-          <div className="mb-8 flex items-center gap-4 justify-center">
+          <div className="mb-4 flex items-center gap-4 justify-center">
             <span className="h-px bg-gradient-to-r from-purple-500 to-blue-500 animate-line" style={{width: '40px'}}></span>
-            <span className="font-mono text-purple-300 uppercase tracking-widest text-xs sm:text-sm animate-fade-in-up" style={{animation: 'fadeInUp 0.8s ease-out 0.2s forwards', opacity: 0}}>Creative Developer & AI/ML Explorer</span>
+            <span className="font-mono text-purple-300 uppercase tracking-widest text-xs sm:text-sm animate-fade-in-up" style={{animation: 'fadeInUp 0.8s ease-out 0.2s forwards', opacity: 0}}>Creative Developer & AI/ML Developer</span>
           </div>
 
           <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black tracking-tighter leading-tight mb-6 text-white animate-scale-in" style={{animation: 'scaleIn 0.8s ease-out 0.3s forwards', opacity: 0}}>
@@ -97,7 +97,7 @@ const Hero = () => {
           </h1>
 
           <p className="text-sm sm:text-base md:text-lg text-purple-200 font-mono mb-6 animate-fade-in-up" style={{animation: 'fadeInUp 0.8s ease-out 0.4s forwards', opacity: 0}}>
-            {heroContent.sub_text}
+            Creating Beyond Limits
           </p>
 
           <p className="max-w-2xl mx-auto text-sm sm:text-base md:text-lg text-gray-200 leading-relaxed mb-8 animate-fade-in-up" style={{animation: 'fadeInUp 0.8s ease-out 0.5s forwards', opacity: 0}}>
