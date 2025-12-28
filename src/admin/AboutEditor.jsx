@@ -68,6 +68,8 @@ const AboutEditor = () => {
         setPhotoFile(null);
         setSuccess('About section updated successfully!');
         setTimeout(() => setSuccess(''), 3000);
+        // Refetch to confirm changes
+        setTimeout(() => fetchAboutContent(), 500);
       } else {
         const data = await response.json();
         setError(data.message || 'Failed to update about section');

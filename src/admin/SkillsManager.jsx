@@ -48,6 +48,8 @@ const SkillsManager = () => {
         setNewSkill({ name: '', level: 'Intermediate' });
         setSuccess('Skill added successfully!');
         setTimeout(() => setSuccess(''), 3000);
+        // Refetch to confirm changes
+        setTimeout(() => fetchSkills(), 500);
       } else {
         const data = await response.json();
         setError(data.message || 'Failed to add skill');
@@ -79,6 +81,8 @@ const SkillsManager = () => {
         setSkills(skills.filter(skill => skill.id !== id));
         setSuccess('Skill deleted successfully!');
         setTimeout(() => setSuccess(''), 3000);
+        // Refetch to confirm changes
+        setTimeout(() => fetchSkills(), 500);
       } else {
         setError('Failed to delete skill');
       }

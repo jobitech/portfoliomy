@@ -44,6 +44,8 @@ const HeroEditor = () => {
       if (response.ok) {
         setSuccess('Hero section updated successfully!');
         setTimeout(() => setSuccess(''), 3000);
+        // Refetch to confirm changes were saved
+        setTimeout(() => fetchHeroContent(), 500);
       } else {
         const data = await response.json();
         setError(data.message || 'Failed to update hero section');

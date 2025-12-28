@@ -77,6 +77,8 @@ const ProjectsManager = () => {
         setProjectImagePreview('');
         setSuccess('Project added successfully!');
         setTimeout(() => setSuccess(''), 3000);
+        // Refetch to confirm changes
+        setTimeout(() => fetchProjects(), 500);
       } else {
         const data = await response.json();
         setError(data.message || 'Failed to add project');
@@ -108,6 +110,8 @@ const ProjectsManager = () => {
         setProjects(projects.filter(project => project.id !== id));
         setSuccess('Project deleted successfully!');
         setTimeout(() => setSuccess(''), 3000);
+        // Refetch to confirm changes
+        setTimeout(() => fetchProjects(), 500);
       } else {
         setError('Failed to delete project');
       }
