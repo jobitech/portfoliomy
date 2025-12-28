@@ -226,24 +226,6 @@ const ContactMenu = ({ isOpen, onClose }) => {
                 </a>
               ))}
             </div>
-            
-            <div className="p-6 rounded-2xl bg-gradient-to-br from-purple-900/20 to-blue-900/20 border border-purple-500/30">
-              <h4 className="text-sm font-mono text-purple-400 mb-4">QUICK STATS</h4>
-              <div className="space-y-3">
-                <div className="flex justify-between items-center">
-                  <span className="text-gray-300">Projects Completed</span>
-                  <span className="text-white font-bold">10+</span>
-                </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-gray-300">Years Experience</span>
-                  <span className="text-white font-bold">2+</span>
-                </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-gray-300">Tech Skills</span>
-                  <span className="text-white font-bold">6</span>
-                </div>
-              </div>
-            </div>
           </div>
         </div>
       </div>
