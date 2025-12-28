@@ -1,0 +1,1 @@
+This is a placeholder text file created because the system failed to create the image file `project-placeholder.png` in `src/assets/`. Please replace this .txt file with an actual image file named `project-placeholder.png` in the `src/assets` directory to fix the 500 error related to the missing image asset.

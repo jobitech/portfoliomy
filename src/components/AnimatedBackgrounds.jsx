@@ -1,0 +1,340 @@
+import React, { useEffect, useRef } from 'react';
+
+export const useAnimatedBackground = (canvasId, animationType = 'particles') => {
+  const canvasRef = useRef(null);
+  const requestRef = useRef();
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    const ctx = canvas.getContext('2d');
+    let width = window.innerWidth;
+    let height = window.innerHeight;
+    let mouse = { x: width / 2, y: height / 2 };
+    let particles = [];
+
+    const handleResize = () => {
+      width = window.innerWidth;
+      height = window.innerHeight;
+      canvas.width = width;
+      canvas.height = height;
+    };
+
+    window.addEventListener('resize', handleResize);
+    handleResize();
+
+    const updateMouse = (e) => {
+      mouse.x = e.clientX;
+      mouse.y = e.clientY;
+    };
+    window.addEventListener('mousemove', updateMouse);
+
+    // Initialize particles for certain animations
+    if (animationType === 'particles' || animationType === 'floatingOrbs') {
+      for (let i = 0; i < 40; i++) {
+        particles.push({
+          x: Math.random() * width,
+          y: Math.random() * height,
+          vx: (Math.random() - 0.5) * 2,
+          vy: (Math.random() - 0.5) * 2,
+          radius: Math.random() * 2 + 1,
+          life: 1
+        });
+      }
+    }
+
+    const animate = () => {
+      ctx.clearRect(0, 0, width, height);
+
+      if (animationType === 'particles') {
+        // Enhanced floating particles with purple and blue trails
+        particles.forEach((particle, idx) => {
+          particle.x += particle.vx;
+          particle.y += particle.vy;
+
+          if (particle.x < 0) particle.x = width;
+          if (particle.x > width) particle.x = 0;
+          if (particle.y < 0) particle.y = height;
+          if (particle.y > height) particle.y = 0;
+
+          const dx = mouse.x - particle.x;
+          const dy = mouse.y - particle.y;
+          const distance = Math.sqrt(dx * dx + dy * dy);
+          const interaction = Math.max(0, 1 - distance / 300);
+
+          // Particle glow - alternating purple and blue
+          const isPurple = idx % 2 === 0;
+          ctx.beginPath();
+          ctx.arc(particle.x, particle.y, particle.radius + interaction * 4, 0, Math.PI * 2);
+          ctx.fillStyle = isPurple 
+            ? `rgba(168, 85, 247, ${0.3 + interaction * 0.6})`
+            : `rgba(59, 130, 246, ${0.3 + interaction * 0.6})`;
+          ctx.fill();
+
+          // Particle trail - mixed colors
+          if (interaction > 0.2) {
+            ctx.strokeStyle = isPurple 
+              ? `rgba(59, 130, 246, ${interaction * 0.5})`
+              : `rgba(168, 85, 247, ${interaction * 0.5})`;
+            ctx.lineWidth = 1 + interaction * 2;
+            ctx.beginPath();
+            ctx.arc(particle.x, particle.y, particle.radius + interaction * 8, 0, Math.PI * 2);
+            ctx.stroke();
+          }
+        });
+
+      } else if (animationType === 'waves') {
+        // Enhanced wave animation with purple and blue colors
+        const waveCount = 5;
+        const time = Date.now() * 0.0008;
+        
+        for (let w = 0; w < waveCount; w++) {
+          ctx.beginPath();
+          const baseAlpha = 0.25 + w * 0.12;
+          
+          for (let x = 0; x <= width; x += 15) {
+            const dist = Math.sqrt((mouse.x - x) ** 2 + (mouse.y - height / 2) ** 2);
+            const mouseInfluence = Math.max(0, 1 - dist / 400);
+            
+            const y = height / 2 + 
+                     Math.sin((x * 0.008 + time + w * 1.5) * Math.PI) * (60 + mouseInfluence * 100) + 
+                     Math.cos(time * 0.5) * 30;
+            
+            if (x === 0) ctx.moveTo(x, y);
+            else ctx.lineTo(x, y);
+          }
+          
+          // Alternate between purple and blue for gradient effect
+          const isPurple = w % 2 === 0;
+          if (isPurple) {
+            ctx.strokeStyle = `rgba(168, 85, 247, ${baseAlpha + w * 0.08})`;
+          } else {
+            ctx.strokeStyle = `rgba(59, 130, 246, ${baseAlpha + w * 0.08})`;
+          }
+          ctx.lineWidth = 2.5 + w * 0.7;
+          ctx.lineCap = 'round';
+          ctx.lineJoin = 'round';
+          ctx.stroke();
+        }
+
+      } else if (animationType === 'grid') {
+        // Enhanced interactive grid with purple and blue
+        const spacing = 80;
+        const time = Date.now() * 0.0003;
+        
+        for (let x = 0; x < width; x += spacing) {
+          for (let y = 0; y < height; y += spacing) {
+            const dist = Math.sqrt((mouse.x - x) ** 2 + (mouse.y - y) ** 2);
+            const interaction = Math.max(0, 1 - dist / 350);
+            const isAlternate = ((x / spacing) + (y / spacing)) % 2 === 0;
+            
+            // Grid point - alternating colors
+            ctx.fillStyle = isAlternate
+              ? `rgba(168, 85, 247, ${0.15 + interaction * 0.5})`
+              : `rgba(59, 130, 246, ${0.15 + interaction * 0.5})`;
+            const size = 3 + interaction * 6;
+            ctx.fillRect(x - size / 2, y - size / 2, size, size);
+            
+            // Interaction rings - mixed colors
+            if (interaction > 0.1) {
+              ctx.strokeStyle = isAlternate
+                ? `rgba(59, 130, 246, ${interaction * 0.7})`
+                : `rgba(168, 85, 247, ${interaction * 0.7})`;
+              ctx.lineWidth = 1.5 + interaction * 2;
+              ctx.beginPath();
+              ctx.arc(x, y, 15 + interaction * 25, 0, Math.PI * 2);
+              ctx.stroke();
+            }
+
+            // Focusing arrows on hover
+            if (interaction > 0.3) {
+              const angle = Math.atan2(mouse.y - y, mouse.x - x);
+              const arrowLength = 20 + interaction * 15;
+              
+              ctx.save();
+              ctx.translate(x, y);
+              ctx.rotate(angle);
+              
+              // Arrow line
+              ctx.beginPath();
+              ctx.moveTo(-arrowLength, 0);
+              ctx.lineTo(arrowLength, 0);
+              ctx.strokeStyle = isAlternate
+                ? `rgba(168, 85, 247, ${interaction * 0.8})`
+                : `rgba(59, 130, 246, ${interaction * 0.8})`;
+              ctx.lineWidth = 2 + interaction;
+              ctx.stroke();
+              
+              // Arrow head
+              ctx.beginPath();
+              ctx.moveTo(arrowLength, 0);
+              ctx.lineTo(arrowLength - 8, -5);
+              ctx.lineTo(arrowLength - 8, 5);
+              ctx.closePath();
+              ctx.fillStyle = isAlternate
+                ? `rgba(168, 85, 247, ${interaction})`
+                : `rgba(59, 130, 246, ${interaction})`;
+              ctx.fill();
+              
+              ctx.restore();
+            }
+          }
+        }
+
+      } else if (animationType === 'dots') {
+        // Enhanced connected dots with purple and blue colors
+        const dotCount = 25;
+        const time = Date.now() * 0.0004;
+        
+        for (let i = 0; i < dotCount; i++) {
+          const angle = (i / dotCount) * Math.PI * 2 + time * 0.3;
+          const radius = 250 + Math.sin(time * 0.5 + i) * 120;
+          const x = width / 2 + Math.cos(angle) * radius;
+          const y = height / 2 + Math.sin(angle) * radius;
+          
+          const dx = mouse.x - x;
+          const dy = mouse.y - y;
+          const distance = Math.sqrt(dx * dx + dy * dy);
+          const interaction = Math.max(0, 1 - distance / 250);
+          const isPurple = i % 2 === 0;
+          
+          // Orbital dot
+          ctx.beginPath();
+          ctx.arc(x, y, 4 + interaction * 6, 0, Math.PI * 2);
+          ctx.fillStyle = isPurple
+            ? `rgba(168, 85, 247, ${0.4 + interaction * 0.6})`
+            : `rgba(59, 130, 246, ${0.4 + interaction * 0.6})`;
+          ctx.fill();
+          
+          // Glow halo - mixed colors
+          ctx.strokeStyle = isPurple
+            ? `rgba(59, 130, 246, ${interaction * 0.5})`
+            : `rgba(168, 85, 247, ${interaction * 0.5})`;
+          ctx.lineWidth = 1.5 + interaction * 2;
+          ctx.beginPath();
+          ctx.arc(x, y, 8 + interaction * 12, 0, Math.PI * 2);
+          ctx.stroke();
+          
+          // Connection lines to neighbors
+          const nextAngle = ((i + 1) / dotCount) * Math.PI * 2 + time * 0.3;
+          const nextRadius = 250 + Math.sin(time * 0.5 + i + 1) * 120;
+          const nextX = width / 2 + Math.cos(nextAngle) * nextRadius;
+          const nextY = height / 2 + Math.sin(nextAngle) * nextRadius;
+          
+          ctx.strokeStyle = isPurple
+            ? `rgba(168, 85, 247, ${(0.1 + interaction * 0.2)})`
+            : `rgba(59, 130, 246, ${(0.1 + interaction * 0.2)})`;
+          ctx.lineWidth = 1;
+          ctx.beginPath();
+          ctx.moveTo(x, y);
+          ctx.lineTo(nextX, nextY);
+          ctx.stroke();
+        }
+        
+        // Pulsing center - gradient purple to blue
+        const centerPulse = Math.sin(time) * 0.5 + 0.5;
+        ctx.beginPath();
+        ctx.arc(width / 2, height / 2, 8 + centerPulse * 10, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(168, 85, 247, ${0.6 + centerPulse * 0.3})`;
+        ctx.fill();
+        
+        ctx.strokeStyle = 'rgba(59, 130, 246, 0.8)';
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.arc(width / 2, height / 2, 8 + centerPulse * 10, 0, Math.PI * 2);
+        ctx.stroke();
+
+      } else if (animationType === 'floatingOrbs') {
+        // Floating orbs with purple and blue color scheme - more visible
+        particles.forEach((particle, idx) => {
+          const time = Date.now() * 0.001;
+          
+          // Gentle floating motion
+          particle.x += Math.sin(time + idx) * 0.5;
+          particle.y += Math.cos(time + idx) * 0.5;
+
+          if (particle.x < 0) particle.x = width;
+          if (particle.x > width) particle.x = 0;
+          if (particle.y < 0) particle.y = height;
+          if (particle.y > height) particle.y = 0;
+
+          const dx = mouse.x - particle.x;
+          const dy = mouse.y - particle.y;
+          const distance = Math.sqrt(dx * dx + dy * dy);
+          const interaction = Math.max(0, 1 - distance / 400);
+          const isPurple = idx % 2 === 0;
+
+          // Main orb - alternating colors with increased opacity
+          ctx.beginPath();
+          ctx.arc(particle.x, particle.y, 5 + interaction * 8, 0, Math.PI * 2);
+          ctx.fillStyle = isPurple
+            ? `rgba(168, 85, 247, ${0.35 + interaction * 0.65})`
+            : `rgba(59, 130, 246, ${0.35 + interaction * 0.65})`;
+          ctx.fill();
+
+          // Outer glow - mixed colors with increased visibility
+          ctx.strokeStyle = isPurple
+            ? `rgba(59, 130, 246, ${0.35 + interaction * 0.75})`
+            : `rgba(168, 85, 247, ${0.35 + interaction * 0.75})`;
+          ctx.lineWidth = 2.5 + interaction * 4;
+          ctx.beginPath();
+          ctx.arc(particle.x, particle.y, 10 + interaction * 15, 0, Math.PI * 2);
+          ctx.stroke();
+
+          // Connection to nearby orbs with better visibility
+          particles.forEach((otherParticle, otherIdx) => {
+            if (otherIdx !== idx) {
+              const dx2 = otherParticle.x - particle.x;
+              const dy2 = otherParticle.y - particle.y;
+              const dist2 = Math.sqrt(dx2 * dx2 + dy2 * dy2);
+              
+              if (dist2 < 200) {
+                ctx.strokeStyle = isPurple
+                  ? `rgba(168, 85, 247, ${(200 - dist2) / 300})`
+                  : `rgba(59, 130, 246, ${(200 - dist2) / 300})`;
+                ctx.lineWidth = 1;
+                ctx.beginPath();
+                ctx.moveTo(particle.x, particle.y);
+                ctx.lineTo(otherParticle.x, otherParticle.y);
+                ctx.stroke();
+              }
+            }
+          });
+        });
+      }
+
+      requestRef.current = requestAnimationFrame(animate);
+    };
+
+    animate();
+    return () => {
+      window.removeEventListener('resize', handleResize);
+      window.removeEventListener('mousemove', updateMouse);
+      cancelAnimationFrame(requestRef.current);
+    };
+  }, [animationType]);
+
+  return canvasRef;
+};
+
+// Animation components for each section
+export const AnimatedAboutBackground = () => {
+  const canvasRef = useAnimatedBackground('about-canvas', 'floatingOrbs');
+  return <canvas ref={canvasRef} className="absolute inset-0 -z-10 pointer-events-none" />;
+};
+
+export const AnimatedSkillsBackground = () => {
+  const canvasRef = useAnimatedBackground('skills-canvas', 'waves');
+  return <canvas ref={canvasRef} className="absolute inset-0 -z-10 pointer-events-none" />;
+};
+
+export const AnimatedProjectsBackground = () => {
+  const canvasRef = useAnimatedBackground('projects-canvas', 'grid');
+  return <canvas ref={canvasRef} className="absolute inset-0 -z-10 pointer-events-none" />;
+};
+
+export const AnimatedContactBackground = () => {
+  const canvasRef = useAnimatedBackground('contact-canvas', 'dots');
+  return <canvas ref={canvasRef} className="absolute inset-0 -z-10 pointer-events-none" />;
+};

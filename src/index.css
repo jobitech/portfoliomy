@@ -1,0 +1,77 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  @apply bg-gray-900 text-white font-sans;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* Mobile-optimized text sizing */
+@media (max-width: 640px) {
+  h1 {
+    @apply text-2xl;
+  }
+  h2 {
+    @apply text-xl;
+  }
+  h3 {
+    @apply text-lg;
+  }
+  p {
+    @apply text-sm;
+  }
+}
+
+/* Touch-friendly button sizing */
+@media (max-width: 640px) {
+  button {
+    @apply min-h-12 min-w-12;
+  }
+}
+
+/* Glassmorphism background style */
+.glass {
+  @apply bg-white bg-opacity-10 backdrop-blur-xs rounded-lg shadow-neon;
+}
+
+/* Neon text effect */
+.neon-text {
+  color: #00ffff;
+  text-shadow:
+    0 0 5px #00ffff,
+    0 0 10px #00ffff,
+    0 0 20px #00ffff,
+    0 0 40px #0ff,
+    0 0 80px #0ff,
+    0 0 90px #0ff,
+    0 0 100px #0ff;
+}
+
+/* Button glow on hover */
+.btn-neon {
+  @apply bg-transparent border border-neonBlue text-neonBlue rounded-md px-4 py-2 transition-all duration-300;
+}
+.btn-neon:hover {
+  @apply bg-neonBlue text-gray-900 shadow-neon;
+}
+
+/* Smooth transitions on mobile */
+@media (hover: none) {
+  * {
+    @apply transition-none;
+  }
+  button, a {
+    @apply active:scale-95;
+  }
+}
+
+/* Better readability on mobile */
+@media (max-width: 768px) {
+  * {
+    -webkit-tap-highlight-color: transparent;
+  }
+}
