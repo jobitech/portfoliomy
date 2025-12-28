@@ -92,7 +92,7 @@ const Hero = () => {
           </h1>
 
           <p className="text-sm sm:text-base md:text-lg text-purple-200 font-mono mb-6 animate-fade-in-up" style={{animation: 'fadeInUp 0.8s ease-out 0.4s forwards', opacity: 0}}>
-            Creative Developer & AI/ML Developer
+            Creative Developer & AI/ML Explorer
           </p>
 
           <p className="max-w-2xl text-sm sm:text-base md:text-lg text-gray-200 leading-relaxed mb-8 animate-fade-in-up" style={{animation: 'fadeInUp 0.8s ease-out 0.5s forwards', opacity: 0}}>

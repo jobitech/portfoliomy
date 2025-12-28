@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Code2, Cpu, Globe, Palette } from 'lucide-react';
-import { useAnimatedBackground } from './AnimatedBackgrounds';
 
 const Skills = () => {
-  const canvasRef = useAnimatedBackground('skills-canvas', 'skillsAnimation');
   const [skills, setSkills] = useState([
     { icon: Code2, title: "HTML", desc: "Markup & Structure", percentage: 100 },
     { icon: Code2, title: "CSS", desc: "Styling & Animations", percentage: 100 },
@@ -48,7 +46,6 @@ const Skills = () => {
 
   return (
     <section className="py-16 md:py-24 px-4 sm:px-8 md:px-12 relative bg-zinc-950 border-t border-white/10 overflow-hidden">
-      <canvas ref={canvasRef} className="absolute inset-0 pointer-events-none opacity-50" />
       <div className="absolute inset-0 bg-gradient-to-b from-black/20 to-black/60 pointer-events-none"></div>
       <div className="max-w-6xl mx-auto relative z-10">
         <div className="mb-12 md:mb-16">

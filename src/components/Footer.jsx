@@ -12,16 +12,6 @@ const Footer = () => {
   return (
     <footer className="py-8 sm:py-12 px-4 sm:px-8 md:px-12 relative z-10 border-t border-white/10 bg-black text-white">
       <div className="max-w-6xl mx-auto flex flex-col sm:flex-row flex-wrap gap-8 sm:gap-12 md:gap-24 items-start sm:items-center justify-between">
-        <div className="flex flex-wrap gap-8 sm:gap-12 md:gap-24">
-          <div className="flex flex-col">
-            <span className="text-xs font-mono text-gray-400 mb-2 uppercase tracking-widest">Experience</span>
-            <span className="text-xl sm:text-2xl font-bold">6 Months</span>
-          </div>
-          <div className="flex flex-col">
-            <span className="text-xs font-mono text-gray-400 mb-2 uppercase tracking-widest">Awards</span>
-            <span className="text-xl sm:text-2xl font-bold">0</span>
-          </div>
-        </div>
         <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6 w-full sm:w-auto">
           <div className="flex gap-4">
             {socialLinks.map(social => (
