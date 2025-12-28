@@ -5,6 +5,7 @@ import HeroEditor from './HeroEditor';
 import AboutEditor from './AboutEditor';
 import SkillsManager from './SkillsManager';
 import ProjectsManager from './ProjectsManager';
+import SettingsManager from './SettingsManager';
 
 const AdminDashboard = () => {
   const [activeTab, setActiveTab] = useState('hero');
@@ -20,6 +21,7 @@ const AdminDashboard = () => {
     { id: 'about', label: 'About', icon: '👤' },
     { id: 'skills', label: 'Skills', icon: '⚡' },
     { id: 'projects', label: 'Projects', icon: '🎨' },
+    { id: 'settings', label: 'Settings', icon: '⚙️' },
   ];
 
   return (
@@ -69,6 +71,7 @@ const AdminDashboard = () => {
         {activeTab === 'about' && <AboutEditor />}
         {activeTab === 'skills' && <SkillsManager />}
         {activeTab === 'projects' && <ProjectsManager />}
+        {activeTab === 'settings' && <SettingsManager />}
       </div>
     </div>
   );

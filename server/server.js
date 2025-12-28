@@ -102,6 +102,25 @@ const initializeDB = () => {
       )
     `);
 
+    // Social links table
+    db.run(`
+      CREATE TABLE IF NOT EXISTS social_links (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        platform TEXT UNIQUE NOT NULL,
+        url TEXT NOT NULL,
+        createdAt DATETIME DEFAULT CURRENT_TIMESTAMP
+      )
+    `);
+
+    // Settings table (for contact email, etc)
+    db.run(`
+      CREATE TABLE IF NOT EXISTS settings (
+        id INTEGER PRIMARY KEY,
+        contact_email TEXT,
+        updatedAt DATETIME DEFAULT CURRENT_TIMESTAMP
+      )
+    `);
+
     // Migrate about_content if needed
     db.all("PRAGMA table_info(about_content)", (err, columns) => {
       const columnNames = columns ? columns.map(c => c.name) : [];
@@ -123,6 +142,31 @@ const initializeDB = () => {
     db.get('SELECT COUNT(*) as count FROM about_content', (err, row) => {
       if (row.count === 0) {
         db.run(`INSERT INTO about_content (id, bio, photo, approach, drives) VALUES (1, 'I am a passionate developer with expertise in modern web technologies. I love creating beautiful, functional applications that solve real problems.', NULL, 'I approach every project with excellence, combining modern technologies with creative problem-solving to deliver results that exceed expectations.', 'My journey is driven by curiosity and a love for solving complex problems. Whether it is frontend magic with React or backend logic with Python, I create seamless experiences.')`);
+      }
+    });
+
+    // Seed social links if empty
+    db.get('SELECT COUNT(*) as count FROM social_links', (err, row) => {
+      if (row.count === 0) {
+        const socialData = [
+          { platform: 'Instagram', url: 'https://instagram.com/_iam_jobin_' },
+          { platform: 'GitHub', url: 'https://github.com/jobitech' },
+          { platform: 'LinkedIn', url: 'https://linkedin.com/in/jobin-babu-872462325/' },
+          { platform: 'Twitter', url: 'https://twitter.com' }
+        ];
+        socialData.forEach((social) => {
+          db.run(
+            'INSERT INTO social_links (platform, url) VALUES (?, ?)',
+            [social.platform, social.url]
+          );
+        });
+      }
+    });
+
+    // Seed settings if empty
+    db.get('SELECT COUNT(*) as count FROM settings', (err, row) => {
+      if (row.count === 0) {
+        db.run(`INSERT INTO settings (id, contact_email) VALUES (1, 'jobinbabu161@gmail.com')`);
       }
     });
 
@@ -438,6 +482,54 @@ app.delete('/api/projects/:id', verifyToken, (req, res) => {
       }
     );
   });
+});
+
+// ==================== SOCIAL LINKS ROUTES ====================
+
+// Get all social links
+app.get('/api/social-links', (req, res) => {
+  db.all('SELECT * FROM social_links ORDER BY id ASC', (err, rows) => {
+    if (err) return res.status(500).json({ error: err.message });
+    res.json(rows || []);
+  });
+});
+
+// Update social link
+app.put('/api/social-links/:id', verifyToken, (req, res) => {
+  const { url } = req.body;
+  
+  db.run(
+    'UPDATE social_links SET url = ? WHERE id = ?',
+    [url, req.params.id],
+    (err) => {
+      if (err) return res.status(500).json({ error: err.message });
+      res.json({ message: 'Social link updated successfully' });
+    }
+  );
+});
+
+// ==================== SETTINGS ROUTES ====================
+
+// Get settings
+app.get('/api/settings', (req, res) => {
+  db.get('SELECT * FROM settings WHERE id = 1', (err, row) => {
+    if (err) return res.status(500).json({ error: err.message });
+    res.json(row || { id: 1, contact_email: '' });
+  });
+});
+
+// Update settings
+app.put('/api/settings', verifyToken, (req, res) => {
+  const { contact_email } = req.body;
+  
+  db.run(
+    'UPDATE settings SET contact_email = ?, updatedAt = CURRENT_TIMESTAMP WHERE id = 1',
+    [contact_email],
+    (err) => {
+      if (err) return res.status(500).json({ error: err.message });
+      res.json({ message: 'Settings updated successfully' });
+    }
+  );
 });
 
 // Start server

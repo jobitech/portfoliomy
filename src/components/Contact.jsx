@@ -1,12 +1,30 @@
 import React, { useState, useEffect } from 'react';
 import { Mail, Phone, MapPin, Send } from 'lucide-react';
 import emailjs from '@emailjs/browser';
+import API_URL from '../config/api';
 
 const Contact = () => {
+  const [contactEmail, setContactEmail] = useState('jobinbabu161@gmail.com');
+
   // Initialize EmailJS
   useEffect(() => {
     emailjs.init('NEgD3IDvT2fa9ootC');
+    fetchContactEmail();
+    const interval = setInterval(fetchContactEmail, 5000);
+    return () => clearInterval(interval);
   }, []);
+
+  const fetchContactEmail = async () => {
+    try {
+      const response = await fetch(`${API_URL}/api/settings`);
+      const data = await response.json();
+      if (data && data.contact_email) {
+        setContactEmail(data.contact_email);
+      }
+    } catch (err) {
+      console.error('Error fetching contact email:', err);
+    }
+  };
   
   const [formData, setFormData] = React.useState({
     name: '',
@@ -26,7 +44,7 @@ const Contact = () => {
     e.preventDefault();
     
     const templateParams = {
-      to_email: 'jobinbabu161@gmail.com',
+      to_email: contactEmail,
       from_name: formData.name,
       from_email: formData.email,
       message: formData.message,

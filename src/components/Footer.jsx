@@ -1,13 +1,42 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Instagram, Github, Linkedin, Twitter } from 'lucide-react';
+import API_URL from '../config/api';
 
 const Footer = () => {
-  const socialLinks = [
-    { name: 'Instagram', icon: Instagram, url: 'https://instagram.com/_iam_jobin_' },
-    { name: 'GitHub', icon: Github, url: 'https://github.com/jobitech' },
-    { name: 'LinkedIn', icon: Linkedin, url: 'https://linkedin.com/in/jobin-babu-872462325/' },
-    { name: 'Twitter', icon: Twitter, url: 'https://twitter.com' }
-  ];
+  const [socialLinks, setSocialLinks] = useState([
+    { id: 1, platform: 'Instagram', icon: Instagram, url: 'https://instagram.com/_iam_jobin_' },
+    { id: 2, platform: 'GitHub', icon: Github, url: 'https://github.com/jobitech' },
+    { id: 3, platform: 'LinkedIn', icon: Linkedin, url: 'https://linkedin.com/in/jobin-babu-872462325/' },
+    { id: 4, platform: 'Twitter', icon: Twitter, url: 'https://twitter.com' }
+  ]);
+
+  useEffect(() => {
+    fetchSocialLinks();
+    const interval = setInterval(fetchSocialLinks, 5000);
+    return () => clearInterval(interval);
+  }, []);
+
+  const fetchSocialLinks = async () => {
+    try {
+      const response = await fetch(`${API_URL}/api/social-links`);
+      const data = await response.json();
+      if (Array.isArray(data) && data.length > 0) {
+        const iconMap = {
+          'Instagram': Instagram,
+          'GitHub': Github,
+          'LinkedIn': Linkedin,
+          'Twitter': Twitter
+        };
+        const linksWithIcons = data.map(link => ({
+          ...link,
+          icon: iconMap[link.platform] || Instagram
+        }));
+        setSocialLinks(linksWithIcons);
+      }
+    } catch (err) {
+      console.error('Error fetching social links:', err);
+    }
+  };
 
   return (
     <footer className="py-8 sm:py-12 px-4 sm:px-8 md:px-12 relative z-10 border-t border-white/10 bg-black text-white">
@@ -16,12 +45,12 @@ const Footer = () => {
           <div className="flex gap-4">
             {socialLinks.map(social => (
               <a 
-                key={social.name}
+                key={social.id || social.platform}
                 href={social.url}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-gray-400 hover:text-purple-400 transition-colors"
-                title={social.name}
+                title={social.platform}
               >
                 <social.icon size={18} className="sm:w-5 sm:h-5" />
               </a>
