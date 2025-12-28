@@ -82,6 +82,8 @@ const initializeDB = () => {
         id INTEGER PRIMARY KEY,
         bio TEXT,
         photo TEXT,
+        approach TEXT,
+        drives TEXT,
         updatedAt DATETIME DEFAULT CURRENT_TIMESTAMP
       )
     `);
@@ -95,7 +97,7 @@ const initializeDB = () => {
 
     db.get('SELECT COUNT(*) as count FROM about_content', (err, row) => {
       if (row.count === 0) {
-        db.run(`INSERT INTO about_content (id, bio, photo) VALUES (1, 'I am a passionate developer with expertise in modern web technologies. I love creating beautiful, functional applications that solve real problems.', NULL)`);
+        db.run(`INSERT INTO about_content (id, bio, photo, approach, drives) VALUES (1, 'I am a passionate developer with expertise in modern web technologies. I love creating beautiful, functional applications that solve real problems.', NULL, 'I approach every project with excellence, combining modern technologies with creative problem-solving to deliver results that exceed expectations.', 'My journey is driven by curiosity and a love for solving complex problems. Whether it is frontend magic with React or backend logic with Python, I create seamless experiences.')`);
       }
     });
 
@@ -217,7 +219,7 @@ app.get('/api/about', (req, res) => {
 
 // Update about content
 app.put('/api/about', verifyToken, upload.single('photo'), (req, res) => {
-  const { bio, keep_photo } = req.body;
+  const { bio, approach, drives, keep_photo } = req.body;
   const newPhoto = req.file ? `/uploads/${req.file.filename}` : null;
 
   // Get current about to handle photo replacement
@@ -238,8 +240,8 @@ app.put('/api/about', verifyToken, upload.single('photo'), (req, res) => {
     }
 
     db.run(
-      'UPDATE about_content SET bio = ?, photo = ?, updatedAt = CURRENT_TIMESTAMP WHERE id = 1',
-      [bio, finalPhoto],
+      'UPDATE about_content SET bio = ?, approach = ?, drives = ?, photo = ?, updatedAt = CURRENT_TIMESTAMP WHERE id = 1',
+      [bio, approach, drives, finalPhoto],
       (err) => {
         if (err) {
           if (req.file) fs.unlinkSync(req.file.path);

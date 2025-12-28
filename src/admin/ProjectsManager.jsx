@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Plus, Trash2, Save, Upload, Loader } from 'lucide-react';
+import API_URL from '../config/api';
 
 const ProjectsManager = () => {
   const [projects, setProjects] = useState([]);

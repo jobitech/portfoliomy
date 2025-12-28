@@ -6,7 +6,9 @@ import API_URL from '../config/api';
 const About = () => {
   const canvasRef = useAnimatedBackground('about-canvas', 'floatingOrbs');
   const [aboutContent, setAboutContent] = useState({
-    bio: 'I\'m a passionate developer dedicated to creating stunning web experiences that blend creativity with functionality. I believe in writing clean code and designing intuitive interfaces.'
+    bio: 'I\'m a passionate developer dedicated to creating stunning web experiences that blend creativity with functionality. I believe in writing clean code and designing intuitive interfaces.',
+    approach: 'I approach every project with excellence, combining modern technologies with creative problem-solving to deliver results that exceed expectations.',
+    drives: 'My journey is driven by curiosity and a love for solving complex problems. Whether it\'s frontend magic with React or backend logic with Python, I create seamless experiences.'
   });
 
   useEffect(() => {
@@ -20,8 +22,12 @@ const About = () => {
     try {
       const response = await fetch(`${API_URL}/api/about`);
       const data = await response.json();
-      if (data && data.bio) {
-        setAboutContent(data);
+      if (data) {
+        setAboutContent({
+          bio: data.bio || '',
+          approach: data.approach || '',
+          drives: data.drives || ''
+        });
       }
     } catch (err) {
       console.error('Error fetching about content:', err);
@@ -52,7 +58,7 @@ const About = () => {
                 My Approach
               </h3>
               <p className="text-gray-400 text-sm md:text-base leading-relaxed">
-                I approach every project with <span className="text-blue-300 font-semibold">excellence</span>, combining <span className="text-purple-300 font-semibold">modern technologies</span> with <span className="text-cyan-300 font-semibold">creative problem-solving</span> to deliver results that exceed expectations.
+                {aboutContent.approach}
               </p>
             </div>
 
@@ -62,7 +68,7 @@ const About = () => {
                 What Drives Me
               </h3>
               <p className="text-gray-400 text-sm md:text-base leading-relaxed">
-                My journey is driven by <span className="text-cyan-300 font-semibold">curiosity</span> and a love for <span className="text-blue-300 font-semibold">solving complex problems</span>. Whether it's <span className="text-purple-300 font-semibold">frontend magic</span> with React or backend logic with Python, I create seamless experiences.
+                {aboutContent.drives}
               </p>
             </div>
 

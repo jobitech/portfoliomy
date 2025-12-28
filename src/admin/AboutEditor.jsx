@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Save, Upload, Loader } from 'lucide-react';
-
-const AboutEditor = () => {
+import API_URL from '../config/api';
   const [aboutContent, setAboutContent] = useState({
     bio: '',
+    approach: '',
+    drives: '',
     photo: ''
   });
   const [photoFile, setPhotoFile] = useState(null);
@@ -50,6 +51,8 @@ const AboutEditor = () => {
       const token = localStorage.getItem('adminToken');
       const formData = new FormData();
       formData.append('bio', aboutContent.bio);
+      formData.append('approach', aboutContent.approach);
+      formData.append('drives', aboutContent.drives);
       if (photoFile) {
         formData.append('photo', photoFile);
       }
@@ -98,8 +101,34 @@ const AboutEditor = () => {
                 value={aboutContent.bio}
                 onChange={(e) => setAboutContent({ ...aboutContent, bio: e.target.value })}
                 className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-purple-500 focus:bg-white/15 transition-all resize-none"
-                rows="8"
+                rows="6"
                 placeholder="Enter your biography"
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-semibold text-gray-300 mb-3">
+                My Approach
+              </label>
+              <textarea
+                value={aboutContent.approach}
+                onChange={(e) => setAboutContent({ ...aboutContent, approach: e.target.value })}
+                className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-purple-500 focus:bg-white/15 transition-all resize-none"
+                rows="5"
+                placeholder="Enter your approach"
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-semibold text-gray-300 mb-3">
+                What Drives Me
+              </label>
+              <textarea
+                value={aboutContent.drives}
+                onChange={(e) => setAboutContent({ ...aboutContent, drives: e.target.value })}
+                className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-purple-500 focus:bg-white/15 transition-all resize-none"
+                rows="5"
+                placeholder="Enter what drives you"
               />
             </div>
 

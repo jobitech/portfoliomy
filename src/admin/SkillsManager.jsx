@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Plus, Trash2, Save, Loader } from 'lucide-react';
+import API_URL from '../config/api';
 
 const SkillsManager = () => {
   const [skills, setSkills] = useState([]);
