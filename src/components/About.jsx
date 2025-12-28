@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useAnimatedBackground } from './AnimatedBackgrounds';
+import profileImage from '../assets/profile 1 .jpeg';
 
 const About = () => {
   const canvasRef = useAnimatedBackground('about-canvas', 'floatingOrbs');
@@ -118,7 +119,7 @@ const About = () => {
                 
                 {/* Image */}
                 <img 
-                  src={require('../assets/profile 1 .jpeg')} 
+                  src={profileImage} 
                   alt="Jobin Babu" 
                   className="w-full h-full object-cover object-center scale-125 group-hover:scale-150 transition-transform duration-700"
                   style={{ objectPosition: '50% 40%' }}
