@@ -72,7 +72,7 @@ const Hero = () => {
       `}</style>
 
       <section 
-        className="min-h-screen flex flex-col justify-center items-center px-4 sm:px-8 md:px-12 pt-40 pb-20 relative z-10 overflow-hidden"
+        className="min-h-screen flex flex-col justify-center items-center md:items-start px-4 sm:px-8 md:px-12 pt-40 pb-20 relative z-10 overflow-hidden"
         style={{
           backgroundImage: `linear-gradient(135deg, rgba(0,0,0,0.8) 0%, rgba(88,28,135,0.5) 100%), url('${profileImage}')`,
           backgroundSize: 'cover',
@@ -86,10 +86,10 @@ const Hero = () => {
           <div className="w-2 h-2 bg-cyan-500 rounded-full animate-float" style={{animationDelay: '0.6s'}}></div>
         </div>
 
-        <div className="max-w-3xl relative z-20 text-center">
-          <div className="mb-4 flex items-center gap-4 justify-center">
+        <div className="max-w-3xl relative z-20 text-center md:text-left">
+          <div className="mb-4 flex items-center gap-4 justify-center md:justify-start">
             <span className="h-px bg-gradient-to-r from-purple-500 to-blue-500 animate-line" style={{width: '40px'}}></span>
-            <span className="font-mono text-purple-300 uppercase tracking-widest text-xs sm:text-sm animate-fade-in-up" style={{animation: 'fadeInUp 0.8s ease-out 0.2s forwards', opacity: 0}}>Creative Developer & AI/ML Developer</span>
+            <span className="font-mono text-purple-300 uppercase tracking-widest text-xs sm:text-sm animate-fade-in-up" style={{animation: 'fadeInUp 0.8s ease-out 0.2s forwards', opacity: 0}}>Creating Beyond Limits</span>
           </div>
 
           <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black tracking-tighter leading-tight mb-6 text-white animate-scale-in" style={{animation: 'scaleIn 0.8s ease-out 0.3s forwards', opacity: 0}}>
@@ -97,14 +97,14 @@ const Hero = () => {
           </h1>
 
           <p className="text-sm sm:text-base md:text-lg text-purple-200 font-mono mb-6 animate-fade-in-up" style={{animation: 'fadeInUp 0.8s ease-out 0.4s forwards', opacity: 0}}>
-            Creating Beyond Limits
+            Creative Developer & AI/ML Developer
           </p>
 
-          <p className="max-w-2xl mx-auto text-sm sm:text-base md:text-lg text-gray-200 leading-relaxed mb-8 animate-fade-in-up" style={{animation: 'fadeInUp 0.8s ease-out 0.5s forwards', opacity: 0}}>
+          <p className="max-w-2xl mx-auto md:mx-0 text-sm sm:text-base md:text-lg text-gray-200 leading-relaxed mb-8 animate-fade-in-up" style={{animation: 'fadeInUp 0.8s ease-out 0.5s forwards', opacity: 0}}>
             {heroContent.bio}
           </p>
 
-          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 w-full sm:w-fit justify-center animate-fade-in-up" style={{animation: 'fadeInUp 0.8s ease-out 0.6s forwards', opacity: 0}}>
+          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 w-full sm:w-fit justify-center md:justify-start animate-fade-in-up" style={{animation: 'fadeInUp 0.8s ease-out 0.6s forwards', opacity: 0}}>
             <button onClick={handleViewWork} className="group flex items-center justify-center gap-2 sm:gap-4 px-4 sm:px-8 py-3 sm:py-4 border border-purple-500/50 rounded-full text-white hover:bg-gradient-to-r hover:from-purple-500 hover:to-blue-500 hover:border-transparent transition-all duration-300 text-sm sm:text-base hover:scale-105">
               <span className="font-bold tracking-widest uppercase">View Work</span>
               <div className="w-6 sm:w-8 h-6 sm:h-8 rounded-full bg-gradient-to-r from-purple-500 to-blue-500 text-white flex items-center justify-center group-hover:bg-white group-hover:text-purple-600 transition-colors">
