@@ -72,7 +72,7 @@ const Hero = () => {
       `}</style>
 
       <section 
-        className="min-h-screen flex flex-col justify-center items-center md:items-start px-4 sm:px-8 md:px-12 pt-40 pb-20 relative z-10 overflow-hidden"
+        className="min-h-screen flex flex-col justify-center items-center md:items-start px-4 sm:px-8 md:px-12 pt-96 pb-20 relative z-10 overflow-hidden"
         style={{
           backgroundImage: `linear-gradient(135deg, rgba(0,0,0,0.8) 0%, rgba(88,28,135,0.5) 100%), url('${profileImage}')`,
           backgroundSize: 'cover',
