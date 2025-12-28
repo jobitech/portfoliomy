@@ -118,7 +118,7 @@ const About = () => {
                 
                 {/* Image */}
                 <img 
-                  src="/src/assets/profile 1 .jpeg" 
+                  src={require('../assets/profile 1 .jpeg')} 
                   alt="Jobin Babu" 
                   className="w-full h-full object-cover object-center scale-125 group-hover:scale-150 transition-transform duration-700"
                   style={{ objectPosition: '50% 40%' }}
