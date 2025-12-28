@@ -62,11 +62,11 @@ const Hero = () => {
       `}</style>
 
       <section 
-        className="min-h-screen flex flex-col justify-center px-4 sm:px-8 md:px-12 pt-20 pb-20 relative z-10 overflow-hidden"
+        className="min-h-screen flex flex-col justify-center items-center px-4 sm:px-8 md:px-12 pt-20 pb-20 relative z-10 overflow-hidden"
         style={{
-          backgroundImage: `linear-gradient(135deg, rgba(0,0,0,0.75) 0%, rgba(88,28,135,0.4) 100%), url('${profileImage}')`,
+          backgroundImage: `linear-gradient(135deg, rgba(0,0,0,0.8) 0%, rgba(88,28,135,0.5) 100%), url('${profileImage}')`,
           backgroundSize: 'cover',
-          backgroundPosition: 'center right',
+          backgroundPosition: 'center center',
           backgroundAttachment: 'fixed'
         }}
       >
@@ -76,33 +76,21 @@ const Hero = () => {
           <div className="w-2 h-2 bg-cyan-500 rounded-full animate-float" style={{animationDelay: '0.6s'}}></div>
         </div>
 
-        <div className="max-w-3xl relative z-20">
-          <div className="mb-8 flex items-center gap-4">
+        <div className="max-w-3xl relative z-20 text-center">
+          <div className="mb-8 flex items-center gap-4 justify-center">
             <span className="h-px bg-gradient-to-r from-purple-500 to-blue-500 animate-line" style={{width: '40px'}}></span>
-            <span className="font-mono text-purple-300 uppercase tracking-widest text-xs sm:text-sm animate-fade-in-up" style={{animation: 'fadeInUp 0.8s ease-out 0.2s forwards', opacity: 0}}>Who I Am</span>
+            <span className="font-mono text-purple-300 uppercase tracking-widest text-xs sm:text-sm animate-fade-in-up" style={{animation: 'fadeInUp 0.8s ease-out 0.2s forwards', opacity: 0}}>Creative Developer & AI/ML Explorer</span>
           </div>
 
-          <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black tracking-tighter leading-[0.95] mb-6 text-white animate-fade-in-up" style={{animation: 'fadeInUp 0.8s ease-out 0.3s forwards', opacity: 0}}>
-            {heroContent.main_text.split(' ').map((word, idx) => (
-              <React.Fragment key={idx}>
-                {word === 'BABU' ? (
-                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-500 via-blue-500 to-cyan-500">
-                    {word}
-                  </span>
-                ) : (
-                  word
-                )}
-                {idx < heroContent.main_text.split(' ').length - 1 && ' '}
-                <br />
-              </React.Fragment>
-            ))}
+          <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black tracking-tighter leading-tight mb-6 text-white animate-fade-in-up" style={{animation: 'fadeInUp 0.8s ease-out 0.3s forwards', opacity: 0}}>
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-500 via-blue-500 to-cyan-500">JOBIN BABU</span>
           </h1>
 
           <p className="text-sm sm:text-base md:text-lg text-purple-200 font-mono mb-6 animate-fade-in-up" style={{animation: 'fadeInUp 0.8s ease-out 0.4s forwards', opacity: 0}}>
             {heroContent.sub_text}
           </p>
 
-          <p className="max-w-xl text-sm sm:text-base md:text-lg text-gray-200 leading-relaxed mb-8 animate-fade-in-up" style={{animation: 'fadeInUp 0.8s ease-out 0.5s forwards', opacity: 0}}>
+          <p className="max-w-2xl mx-auto text-sm sm:text-base md:text-lg text-gray-200 leading-relaxed mb-8 animate-fade-in-up" style={{animation: 'fadeInUp 0.8s ease-out 0.5s forwards', opacity: 0}}>
             {heroContent.bio}
           </p>
 

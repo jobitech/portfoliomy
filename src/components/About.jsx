@@ -41,15 +41,6 @@ const About = () => {
         <div className="grid grid-cols-1 gap-8">
           {/* Content Section */}
           <div className="space-y-8 max-w-4xl mx-auto w-full">
-            <div className="group">
-              <h3 className="text-lg md:text-xl font-semibold text-white mb-3 flex items-center gap-2">
-                <span className="w-1 h-6 bg-gradient-to-b from-purple-400 to-blue-400 rounded-full"></span>
-                Who I Am
-              </h3>
-              <p className="text-gray-300 text-sm md:text-base leading-relaxed">
-                {aboutContent.bio}
-              </p>
-            </div>
 
             <div className="group">
               <h3 className="text-lg md:text-xl font-semibold text-white mb-3 flex items-center gap-2">

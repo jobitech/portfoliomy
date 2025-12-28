@@ -117,7 +117,7 @@ const ProjectsGallery = () => {
               <div 
                 className="flex gap-8 px-8 relative z-20"
                 style={{
-                  animation: `scroll ${filteredProjects.length * 5}s linear infinite`,
+                  animation: `scroll ${Math.max(20, filteredProjects.length * 3)}s linear infinite`,
                 }}
               >
                 {loopProjects.map((project, index) => (

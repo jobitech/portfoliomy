@@ -5,12 +5,15 @@ import { useAnimatedBackground } from './AnimatedBackgrounds';
 const Skills = () => {
   const canvasRef = useAnimatedBackground('skills-canvas', 'grid');
   const [skills, setSkills] = useState([
-    { icon: Code2, title: "HTML", desc: "Markup & Structure", percentage: 90 },
-    { icon: Code2, title: "CSS", desc: "Styling & Animations", percentage: 90 },
+    { icon: Code2, title: "HTML", desc: "Markup & Structure", percentage: 100 },
+    { icon: Code2, title: "CSS", desc: "Styling & Animations", percentage: 100 },
     { icon: Globe, title: "JavaScript", desc: "Core Scripting", percentage: 90 },
-    { icon: Cpu, title: "React", desc: "Frontend Framework", percentage: 90 },
+    { icon: Cpu, title: "React", desc: "Frontend Framework", percentage: 40 },
     { icon: Palette, title: "Tailwind CSS", desc: "Styling Framework", percentage: 90 },
-    { icon: Cpu, title: "Node.js", desc: "Backend Development", percentage: 70 },
+    { icon: Cpu, title: "Node.js", desc: "Backend Development", percentage: 50 },
+    { icon: Code2, title: "PHP", desc: "Server-side Language", percentage: 100 },
+    { icon: Cpu, title: "Python", desc: "AI/ML & Scripting", percentage: 50 },
+    { icon: Globe, title: "SQL", desc: "Database Management", percentage: 50 },
   ]);
 
   useEffect(() => {
