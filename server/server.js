@@ -43,6 +43,18 @@ const db = new sqlite3.Database(dbPath, (err) => {
 // Initialize database tables
 const initializeDB = () => {
   db.serialize(() => {
+    // Check if old hero_content table exists and has columns we need
+    db.all("PRAGMA table_info(hero_content)", (err, columns) => {
+      const columnNames = columns ? columns.map(c => c.name) : [];
+      const needsMigration = !columnNames.includes('tag_text') || !columnNames.includes('bio');
+      
+      if (needsMigration && columns && columns.length > 0) {
+        // Migrate old table
+        db.run(`ALTER TABLE hero_content ADD COLUMN tag_text TEXT DEFAULT 'Creating Beyond Limits'`);
+        db.run(`ALTER TABLE hero_content ADD COLUMN bio TEXT DEFAULT 'I''m a passionate developer dedicated to creating stunning web experiences that blend creativity with functionality. I believe in writing clean code and designing intuitive interfaces.'`);
+      }
+    });
+
     // Skills table
     db.run(`
       CREATE TABLE IF NOT EXISTS skills (
@@ -89,6 +101,17 @@ const initializeDB = () => {
         updatedAt DATETIME DEFAULT CURRENT_TIMESTAMP
       )
     `);
+
+    // Migrate about_content if needed
+    db.all("PRAGMA table_info(about_content)", (err, columns) => {
+      const columnNames = columns ? columns.map(c => c.name) : [];
+      if (!columnNames.includes('approach')) {
+        db.run(`ALTER TABLE about_content ADD COLUMN approach TEXT DEFAULT 'I approach every project with excellence, combining modern technologies with creative problem-solving to deliver results that exceed expectations.'`);
+      }
+      if (!columnNames.includes('drives')) {
+        db.run(`ALTER TABLE about_content ADD COLUMN drives TEXT DEFAULT 'My journey is driven by curiosity and a love for solving complex problems. Whether it is frontend magic with React or backend logic with Python, I create seamless experiences.'`);
+      }
+    });
 
     // Seed initial data if tables are empty
     db.get('SELECT COUNT(*) as count FROM hero_content', (err, row) => {
