@@ -155,7 +155,7 @@ const ProjectsGallery = () => {
                 <style>{`
                   @media (min-width: 768px) {
                     .carousel-loop {
-                      animation: scroll ${Math.max(15, filteredProjects.length * 2)}s linear infinite;
+                      animation: scroll ${Math.max(15, filteredProjects.length * 2)}s linear infinite !important;
                     }
                   }
                   @keyframes scroll {
@@ -168,7 +168,7 @@ const ProjectsGallery = () => {
                 `}</style>
                 
                 <div 
-                  className="flex gap-8 md:carousel-loop"
+                  className="flex gap-8 carousel-loop"
                   style={{
                     minWidth: 'max-content',
                   }}
