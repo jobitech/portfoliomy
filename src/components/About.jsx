@@ -38,9 +38,9 @@ const About = () => {
           <p className="text-gray-400 text-sm md:text-base">Building Digital Experiences</p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
-          {/* Content Section - Left and Center */}
-          <div className="lg:col-span-6 space-y-8 order-2 lg:order-1">
+        <div className="grid grid-cols-1 gap-8">
+          {/* Content Section */}
+          <div className="space-y-8 max-w-4xl mx-auto w-full">
             <div className="group">
               <h3 className="text-lg md:text-xl font-semibold text-white mb-3 flex items-center gap-2">
                 <span className="w-1 h-6 bg-gradient-to-b from-purple-400 to-blue-400 rounded-full"></span>
@@ -96,50 +96,7 @@ const About = () => {
             </a>
           </div>
 
-          {/* Image Section - Right */}
-          <div className="lg:col-span-6 relative group flex justify-center lg:justify-end items-start order-first lg:order-2 pt-0 lg:pt-8">
-            <div className="relative w-72 h-72 md:w-80 md:h-80 lg:w-96 lg:h-96">
-              {/* Animated background orbs */}
-              <div className="absolute -inset-12 rounded-full bg-gradient-to-br from-purple-600/40 via-blue-600/20 to-cyan-600/40 blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
-              
-              {/* Outer decorative ring with gradient */}
-              <div className="absolute -inset-4 rounded-full bg-gradient-to-r from-purple-500 via-blue-500 to-cyan-500 opacity-0 group-hover:opacity-30 transition-opacity duration-500 blur-md"></div>
-              
-              {/* Premium metallic frame - double border effect */}
-              <div className="absolute -inset-3.5 rounded-full bg-gradient-to-br from-purple-400 to-blue-400 opacity-20 group-hover:opacity-40 transition-opacity duration-500"></div>
-              <div className="absolute -inset-3 rounded-full border-2 border-gradient-to-r from-purple-500/60 via-blue-500/40 to-cyan-500/60 opacity-80 group-hover:opacity-100 transition-opacity duration-500"></div>
-              
-              {/* Inner bright ring */}
-              <div className="absolute -inset-2 rounded-full bg-gradient-to-b from-white/10 to-transparent opacity-50 group-hover:opacity-70 transition-opacity duration-500"></div>
-              
-              {/* Main image container */}
-              <div className="relative w-full h-full rounded-full overflow-hidden shadow-2xl group-hover:shadow-purple-500/60 transition-all duration-500">
-                {/* Background gradient overlay */}
-                <div className="absolute inset-0 bg-gradient-to-br from-purple-900/20 to-blue-900/30 z-5"></div>
-                
-                {/* Image */}
-                <img 
-                  src={profileImage} 
-                  alt="Jobin Babu" 
-                  className="w-full h-full object-cover object-center scale-125 group-hover:scale-150 transition-transform duration-700"
-                  style={{ objectPosition: '50% 40%' }}
-                />
-                
-                {/* Darken overlay - visible normally, hidden on hover */}
-                <div className="absolute inset-0 bg-black/25 z-10 group-hover:opacity-0 transition-opacity duration-500"></div>
-                
-                {/* Premium overlay on hover */}
-                <div className="absolute inset-0 bg-gradient-to-t from-purple-900/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                
-                {/* Shine effect */}
-                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent opacity-0 group-hover:opacity-50 transition-opacity duration-500 rounded-full"></div>
-              </div>
-              
-              {/* Floating accent elements */}
-              <div className="absolute -top-6 -right-6 w-16 h-16 bg-gradient-to-br from-purple-500/30 to-blue-500/30 rounded-full blur-xl opacity-0 group-hover:opacity-100 transition-all duration-500"></div>
-              <div className="absolute -bottom-6 -left-6 w-20 h-20 bg-gradient-to-tr from-cyan-500/20 to-blue-500/20 rounded-full blur-2xl opacity-0 group-hover:opacity-100 transition-all duration-500"></div>
-            </div>
-          </div>
+
         </div>
       </div>
     </section>
