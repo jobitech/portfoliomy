@@ -55,23 +55,6 @@ const Home = () => {
         ctx.fill();
       }
       
-      // Animated grid lines
-      const GRID_SPACING = 60;
-      const rows = Math.ceil(height / GRID_SPACING);
-      const cols = Math.ceil(width / GRID_SPACING);
-      
-      for (let i = 0; i < cols; i++) {
-        for (let j = 0; j < rows; j++) {
-          const x = i * GRID_SPACING;
-          const y = j * GRID_SPACING;
-          const distance = Math.sqrt((x - width/2) ** 2 + (y - height/2) ** 2);
-          const wave = Math.sin(time * 0.8 - distance * 0.01) * 0.5 + 0.5;
-          
-          ctx.fillStyle = `rgba(147, 51, 234, ${wave * 0.1})`;
-          ctx.fillRect(x, y, 2, 2);
-        }
-      }
-      
       requestRef.current = requestAnimationFrame(animate);
     };
 
