@@ -1,10 +1,13 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useRef } from 'react';
 import { Search, ExternalLink } from 'lucide-react';
 import { getAllProjects, searchProjects } from '../data/projectsData';
 import { useAnimatedBackground } from './AnimatedBackgrounds';
 
 const ProjectsGallery = () => {
   const [searchQuery, setSearchQuery] = useState('');
+  const [touchStart, setTouchStart] = useState(0);
+  const [touchEnd, setTouchEnd] = useState(0);
+  const carouselRef = useRef(null);
   const canvasRef = useAnimatedBackground('gallery-canvas', 'waves');
 
   const filteredProjects = useMemo(() => {
@@ -16,6 +19,30 @@ const ProjectsGallery = () => {
 
   // Duplicate projects for seamless loop
   const loopProjects = [...filteredProjects, ...filteredProjects];
+
+  const handleTouchStart = (e) => {
+    setTouchStart(e.targetTouches[0].clientX);
+  };
+
+  const handleTouchEnd = (e) => {
+    setTouchEnd(e.changedTouches[0].clientX);
+    handleSwipe();
+  };
+
+  const handleSwipe = () => {
+    if (!carouselRef.current) return;
+    
+    const difference = touchStart - touchEnd;
+    const carousel = carouselRef.current;
+    
+    if (Math.abs(difference) > 50) {
+      if (difference > 0) {
+        carousel.scrollBy({ left: 400, behavior: 'smooth' });
+      } else {
+        carousel.scrollBy({ left: -400, behavior: 'smooth' });
+      }
+    }
+  };
 
   return (
     <div className="min-h-screen bg-black text-white pt-32 pb-20 relative overflow-hidden">
@@ -108,19 +135,45 @@ const ProjectsGallery = () => {
               </div>
             </div>
           ) : (
-            // Carousel view with animation behind
+            // Carousel view - now with touch support
             <div className="overflow-hidden relative mb-12">
               {/* Gradient fade edges */}
-              <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-black to-transparent z-30 pointer-events-none"></div>
-              <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-black to-transparent z-30 pointer-events-none"></div>
+              <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-black to-transparent z-30 pointer-events-none hidden md:block"></div>
+              <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-black to-transparent z-30 pointer-events-none hidden md:block"></div>
               
               <div 
-                className="flex gap-8 px-8 relative z-20"
+                ref={carouselRef}
+                className="flex gap-8 px-4 sm:px-8 relative z-20 overflow-x-auto scroll-smooth scrollbar-hide md:overflow-x-hidden"
                 style={{
-                  animation: `scroll ${Math.max(20, filteredProjects.length * 3)}s linear infinite`,
+                  scrollBehavior: 'smooth',
+                  WebkitOverflowScrolling: 'touch',
                 }}
+                onTouchStart={handleTouchStart}
+                onTouchEnd={handleTouchEnd}
               >
-                {loopProjects.map((project, index) => (
+                {/* Desktop: animated carousel */}
+                <style>{`
+                  @media (min-width: 768px) {
+                    .carousel-loop {
+                      animation: scroll ${Math.max(15, filteredProjects.length * 2)}s linear infinite;
+                    }
+                  }
+                  @keyframes scroll {
+                    0% { transform: translateX(0); }
+                    100% { transform: translateX(calc(-100% / 2)); }
+                  }
+                  .scrollbar-hide::-webkit-scrollbar {
+                    display: none;
+                  }
+                `}</style>
+                
+                <div 
+                  className="flex gap-8 md:carousel-loop"
+                  style={{
+                    minWidth: 'max-content',
+                  }}
+                >
+                  {loopProjects.map((project, index) => (
                   <div
                     key={`${project.id}-${index}`}
                     className="group relative flex-shrink-0 w-96 h-80 border border-white/10 rounded-2xl overflow-hidden cursor-pointer hover:border-purple-500/50 transition-all duration-300"
@@ -159,6 +212,7 @@ const ProjectsGallery = () => {
                     </div>
                   </div>
                 ))}
+                </div>
               </div>
             </div>
           )
@@ -169,17 +223,6 @@ const ProjectsGallery = () => {
           </div>
         )}
       </div>
-
-      <style>{`
-        @keyframes scroll {
-          0% {
-            transform: translateX(0);
-          }
-          100% {
-            transform: translateX(calc(-100% / 2));
-          }
-        }
-      `}</style>
     </div>
   );
 };

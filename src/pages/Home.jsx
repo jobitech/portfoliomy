@@ -18,10 +18,7 @@ const Home = () => {
     const ctx = canvas.getContext('2d');
     let width = window.innerWidth;
     let height = window.innerHeight;
-    
-    const GRID_SPACING = 40;
-    const NEEDLE_LENGTH = 20;
-    let mouse = { x: width / 2, y: height / 2 };
+    let time = 0;
 
     const handleResize = () => {
       width = window.innerWidth;
@@ -32,64 +29,55 @@ const Home = () => {
     window.addEventListener('resize', handleResize);
     handleResize();
 
-    const updateMouse = (e) => {
-      mouse.x = e.clientX;
-      mouse.y = e.clientY;
-    };
-    window.addEventListener('mousemove', updateMouse);
-
     const animate = () => {
       ctx.clearRect(0, 0, width, height);
+      time += 0.01;
       
+      // Floating orbs animation
+      const orbCount = 6;
+      for (let i = 0; i < orbCount; i++) {
+        const angle = (i / orbCount) * Math.PI * 2 + time * 0.3;
+        const radius = 150 + Math.sin(time * 0.5 + i) * 50;
+        const x = width / 2 + Math.cos(angle) * radius;
+        const y = height / 2 + Math.sin(angle) * radius;
+        
+        const size = 30 + Math.sin(time * 0.7 + i) * 15;
+        const opacity = 0.3 + Math.sin(time * 0.6 + i) * 0.2;
+        
+        const gradient = ctx.createRadialGradient(x, y, 0, x, y, size);
+        const hue = (i * 60 + time * 30) % 360;
+        gradient.addColorStop(0, `hsla(${hue}, 100%, 60%, ${opacity})`);
+        gradient.addColorStop(1, `hsla(${hue}, 100%, 40%, 0)`);
+        
+        ctx.fillStyle = gradient;
+        ctx.beginPath();
+        ctx.arc(x, y, size, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      
+      // Animated grid lines
+      const GRID_SPACING = 60;
       const rows = Math.ceil(height / GRID_SPACING);
       const cols = Math.ceil(width / GRID_SPACING);
-
+      
       for (let i = 0; i < cols; i++) {
         for (let j = 0; j < rows; j++) {
-          const x = i * GRID_SPACING + GRID_SPACING / 2;
-          const y = j * GRID_SPACING + GRID_SPACING / 2;
-          const dx = mouse.x - x;
-          const dy = mouse.y - y;
-          const distance = Math.sqrt(dx * dx + dy * dy);
-          const angle = Math.atan2(dy, dx);
-          const maxDist = 400;
-          const interaction = Math.max(0, 1 - distance / maxDist);
+          const x = i * GRID_SPACING;
+          const y = j * GRID_SPACING;
+          const distance = Math.sqrt((x - width/2) ** 2 + (y - height/2) ** 2);
+          const wave = Math.sin(time * 0.8 - distance * 0.01) * 0.5 + 0.5;
           
-          const length = NEEDLE_LENGTH + (interaction * 15);
-          const thickness = 1 + (interaction * 3);
-          
-          ctx.save();
-          ctx.translate(x, y);
-          ctx.rotate(angle);
-          ctx.beginPath();
-          ctx.moveTo(-length / 2, 0);
-          ctx.lineTo(length / 2, 0);
-          
-          if (interaction > 0.1) {
-            const gradient = ctx.createLinearGradient(-length / 2, 0, length / 2, 0);
-            gradient.addColorStop(0, `rgba(147, 51, 234, ${0.3 + interaction})`);
-            gradient.addColorStop(1, `rgba(59, 130, 246, ${0.3 + interaction})`);
-            ctx.strokeStyle = gradient;
-            ctx.shadowBlur = 10 * interaction;
-            ctx.shadowColor = '#7c3aed';
-          } else {
-            ctx.strokeStyle = 'rgba(255, 255, 255, 0.15)';
-            ctx.shadowBlur = 0;
-          }
-
-          ctx.lineWidth = thickness;
-          ctx.lineCap = 'round';
-          ctx.stroke();
-          ctx.restore();
+          ctx.fillStyle = `rgba(147, 51, 234, ${wave * 0.1})`;
+          ctx.fillRect(x, y, 2, 2);
         }
       }
+      
       requestRef.current = requestAnimationFrame(animate);
     };
 
     animate();
     return () => {
       window.removeEventListener('resize', handleResize);
-      window.removeEventListener('mousemove', updateMouse);
       cancelAnimationFrame(requestRef.current);
     };
   }, []);

@@ -52,13 +52,23 @@ const Hero = () => {
           from { opacity: 0; transform: translateY(20px); }
           to { opacity: 1; transform: translateY(0); }
         }
+        @keyframes scaleIn {
+          from { opacity: 0; transform: scale(0.8); }
+          to { opacity: 1; transform: scale(1); }
+        }
         @keyframes float {
           0%, 100% { transform: translateY(0px); }
           50% { transform: translateY(-10px); }
         }
+        @keyframes glowPulse {
+          0%, 100% { box-shadow: 0 0 20px rgba(147, 51, 234, 0.3); }
+          50% { box-shadow: 0 0 40px rgba(147, 51, 234, 0.6); }
+        }
         .animate-line { animation: slideInRight 1s ease-out forwards; }
         .animate-fade-in-up { animation: fadeInUp 0.8s ease-out forwards; }
+        .animate-scale-in { animation: scaleIn 0.8s ease-out forwards; }
         .animate-float { animation: float 3s ease-in-out infinite; }
+        .animate-glow-pulse { animation: glowPulse 2s ease-in-out infinite; }
       `}</style>
 
       <section 
@@ -82,8 +92,8 @@ const Hero = () => {
             <span className="font-mono text-purple-300 uppercase tracking-widest text-xs sm:text-sm animate-fade-in-up" style={{animation: 'fadeInUp 0.8s ease-out 0.2s forwards', opacity: 0}}>Creative Developer & AI/ML Explorer</span>
           </div>
 
-          <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black tracking-tighter leading-tight mb-6 text-white animate-fade-in-up" style={{animation: 'fadeInUp 0.8s ease-out 0.3s forwards', opacity: 0}}>
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-500 via-blue-500 to-cyan-500">JOBIN BABU</span>
+          <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black tracking-tighter leading-tight mb-6 text-white animate-scale-in" style={{animation: 'scaleIn 0.8s ease-out 0.3s forwards', opacity: 0}}>
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-500 via-blue-500 to-cyan-500 animate-glow-pulse inline-block px-2">JOBIN BABU</span>
           </h1>
 
           <p className="text-sm sm:text-base md:text-lg text-purple-200 font-mono mb-6 animate-fade-in-up" style={{animation: 'fadeInUp 0.8s ease-out 0.4s forwards', opacity: 0}}>
@@ -94,15 +104,15 @@ const Hero = () => {
             {heroContent.bio}
           </p>
 
-          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 w-full sm:w-fit animate-fade-in-up" style={{animation: 'fadeInUp 0.8s ease-out 0.6s forwards', opacity: 0}}>
-            <button onClick={handleViewWork} className="group flex items-center justify-center gap-2 sm:gap-4 px-4 sm:px-8 py-3 sm:py-4 border border-purple-500/50 rounded-full text-white hover:bg-gradient-to-r hover:from-purple-500 hover:to-blue-500 hover:border-transparent transition-all duration-300 text-sm sm:text-base">
+          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 w-full sm:w-fit justify-center animate-fade-in-up" style={{animation: 'fadeInUp 0.8s ease-out 0.6s forwards', opacity: 0}}>
+            <button onClick={handleViewWork} className="group flex items-center justify-center gap-2 sm:gap-4 px-4 sm:px-8 py-3 sm:py-4 border border-purple-500/50 rounded-full text-white hover:bg-gradient-to-r hover:from-purple-500 hover:to-blue-500 hover:border-transparent transition-all duration-300 text-sm sm:text-base hover:scale-105">
               <span className="font-bold tracking-widest uppercase">View Work</span>
               <div className="w-6 sm:w-8 h-6 sm:h-8 rounded-full bg-gradient-to-r from-purple-500 to-blue-500 text-white flex items-center justify-center group-hover:bg-white group-hover:text-purple-600 transition-colors">
                 <ArrowUpRight size={14} />
               </div>
             </button>
 
-            <button onClick={handleResumeDownload} className="group flex items-center justify-center gap-2 sm:gap-4 px-4 sm:px-8 py-3 sm:py-4 border border-purple-500/50 rounded-full text-white hover:bg-gradient-to-r hover:from-purple-500 hover:to-blue-500 hover:border-transparent transition-all duration-300 text-sm sm:text-base">
+            <button onClick={handleResumeDownload} className="group flex items-center justify-center gap-2 sm:gap-4 px-4 sm:px-8 py-3 sm:py-4 border border-purple-500/50 rounded-full text-white hover:bg-gradient-to-r hover:from-purple-500 hover:to-blue-500 hover:border-transparent transition-all duration-300 text-sm sm:text-base hover:scale-105">
               <span className="font-bold tracking-widest uppercase">Resume</span>
               <div className="w-6 sm:w-8 h-6 sm:h-8 rounded-full bg-gradient-to-r from-purple-500 to-blue-500 text-white flex items-center justify-center group-hover:bg-white group-hover:text-purple-600 transition-colors">
                 <Download size={16} />
